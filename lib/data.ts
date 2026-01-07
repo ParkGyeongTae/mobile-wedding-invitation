@@ -1,47 +1,49 @@
 import { WeddingInfo, GalleryImage } from './types';
 
+// 환경 변수에서 개인정보 로드
 export const weddingInfo: WeddingInfo = {
   groom: {
-    name: '신랑 이름',
-    father: '신랑 아버지',
-    mother: '신랑 어머니',
-    account: {
-      bank: '은행명',
-      number: '계좌번호',
-      holder: '신랑 이름',
-    },
+    name: process.env.NEXT_PUBLIC_GROOM_NAME || '신랑 이름',
+    father: process.env.NEXT_PUBLIC_GROOM_FATHER || '신랑 아버지',
+    mother: process.env.NEXT_PUBLIC_GROOM_MOTHER || '신랑 어머니',
+    account: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_BANK ? {
+      bank: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_BANK,
+      number: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_NUMBER || '',
+      holder: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_HOLDER || '',
+    } : undefined,
   },
   bride: {
-    name: '신부 이름',
-    father: '신부 아버지',
-    mother: '신부 어머니',
-    account: {
-      bank: '은행명',
-      number: '계좌번호',
-      holder: '신부 이름',
-    },
+    name: process.env.NEXT_PUBLIC_BRIDE_NAME || '신부 이름',
+    father: process.env.NEXT_PUBLIC_BRIDE_FATHER || '신부 아버지',
+    mother: process.env.NEXT_PUBLIC_BRIDE_MOTHER || '신부 어머니',
+    account: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_BANK ? {
+      bank: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_BANK,
+      number: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_NUMBER || '',
+      holder: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_HOLDER || '',
+    } : undefined,
   },
-  date: '2024-12-25',
-  time: '14:00',
+  date: process.env.NEXT_PUBLIC_WEDDING_DATE || '2024-12-25',
+  time: process.env.NEXT_PUBLIC_WEDDING_TIME || '14:00',
   location: {
-    name: '웨딩홀 이름',
-    address: '서울특별시 강남구 테헤란로 123',
-    tel: '02-1234-5678',
-    lat: 37.5665,
-    lng: 126.9780,
+    name: process.env.NEXT_PUBLIC_LOCATION_NAME || '웨딩홀 이름',
+    address: process.env.NEXT_PUBLIC_LOCATION_ADDRESS || '서울특별시 강남구 테헤란로 123',
+    tel: process.env.NEXT_PUBLIC_LOCATION_TEL,
+    lat: parseFloat(process.env.NEXT_PUBLIC_LOCATION_LAT || '37.5665'),
+    lng: parseFloat(process.env.NEXT_PUBLIC_LOCATION_LNG || '126.9780'),
   },
 };
 
-export const galleryImages: GalleryImage[] = [
-  { id: '1', url: '/images/gallery/1.jpg', alt: 'Wedding Photo 1' },
-  { id: '2', url: '/images/gallery/2.jpg', alt: 'Wedding Photo 2' },
-  { id: '3', url: '/images/gallery/3.jpg', alt: 'Wedding Photo 3' },
-  { id: '4', url: '/images/gallery/4.jpg', alt: 'Wedding Photo 4' },
-  { id: '5', url: '/images/gallery/5.jpg', alt: 'Wedding Photo 5' },
-  { id: '6', url: '/images/gallery/6.jpg', alt: 'Wedding Photo 6' },
-];
+// 갤러리 이미지 개수 (환경 변수로 설정 가능)
+const galleryCount = parseInt(process.env.NEXT_PUBLIC_GALLERY_COUNT || '6', 10);
 
-export const invitationMessage = `
+export const galleryImages: GalleryImage[] = Array.from({ length: galleryCount }, (_, i) => ({
+  id: String(i + 1),
+  url: `/images/gallery/${i + 1}.jpg`,
+  alt: `Wedding Photo ${i + 1}`,
+}));
+
+// 초대 메시지 (환경 변수로 설정 가능)
+export const invitationMessage = process.env.NEXT_PUBLIC_INVITATION_MESSAGE || `
 서로가 마주보며 다져온 사랑을
 이제 함께 한 곳을 바라보며
 걸어갈 수 있는 큰 사랑으로 키우고자 합니다.

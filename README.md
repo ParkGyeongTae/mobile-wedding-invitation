@@ -98,24 +98,41 @@ cd mobile-wedding-invitation
 npm install
 ```
 
-### 3. 환경 변수 설정 (선택사항 - 방명록 기능용)
+### 3. 환경 변수 설정 (개인정보 입력)
 
 ```bash
 cp .env.local.example .env.local
 ```
 
-`.env.local` 파일을 열어 Firebase 설정 정보를 입력하세요:
+`.env.local` 파일을 열어 개인정보를 입력하세요:
 
 ```env
+# 개인정보 (필수)
+NEXT_PUBLIC_GROOM_NAME=홍길동
+NEXT_PUBLIC_GROOM_FATHER=홍아버지
+NEXT_PUBLIC_GROOM_MOTHER=홍어머니
+NEXT_PUBLIC_BRIDE_NAME=김영희
+NEXT_PUBLIC_BRIDE_FATHER=김아버지
+NEXT_PUBLIC_BRIDE_MOTHER=김어머니
+NEXT_PUBLIC_WEDDING_DATE=2024-12-25
+NEXT_PUBLIC_WEDDING_TIME=14:00
+NEXT_PUBLIC_LOCATION_NAME=그랜드 웨딩홀
+NEXT_PUBLIC_LOCATION_ADDRESS=서울특별시 강남구 테헤란로 123
+NEXT_PUBLIC_LOCATION_LAT=37.5665
+NEXT_PUBLIC_LOCATION_LNG=126.9780
+
+# 계좌 정보 (선택사항)
+NEXT_PUBLIC_GROOM_ACCOUNT_BANK=국민은행
+NEXT_PUBLIC_GROOM_ACCOUNT_NUMBER=123-456-789012
+NEXT_PUBLIC_GROOM_ACCOUNT_HOLDER=홍길동
+
+# Firebase (방명록 기능 사용 시)
 NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project-id.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project-id.appspot.com
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your-sender-id
-NEXT_PUBLIC_FIREBASE_APP_ID=your-app-id
+# ... (나머지 Firebase 설정)
 ```
 
-> **참고**: 방명록 기능을 사용하지 않으면 환경 변수 설정을 건너뛰어도 됩니다.
+> ⚠️ **중요**: `.env.local` 파일은 개인정보가 포함되어 있으므로 **절대 Git에 커밋하지 마세요**. `.gitignore`에 이미 포함되어 있습니다.
 
 ### 4. 개발 서버 실행
 
@@ -129,41 +146,27 @@ npm run dev
 
 ### 📝 결혼식 정보 수정
 
-`lib/data.ts` 파일을 열어 결혼식 정보를 수정하세요:
+**로컬 개발 환경**: `.env.local` 파일을 수정하세요:
 
-```typescript
-export const weddingInfo: WeddingInfo = {
-  groom: {
-    name: '신랑 이름',
-    father: '신랑 아버지',
-    mother: '신랑 어머니',
-    account: {
-      bank: '은행명',
-      number: '1234-5678-9012-3456',
-      holder: '신랑 이름',
-    },
-  },
-  bride: {
-    name: '신부 이름',
-    father: '신부 아버지',
-    mother: '신부 어머니',
-    account: {
-      bank: '은행명',
-      number: '1234-5678-9012-3456',
-      holder: '신부 이름',
-    },
-  },
-  date: '2024-12-25',
-  time: '14:00',
-  location: {
-    name: '웨딩홀 이름',
-    address: '서울특별시 강남구 테헤란로 123',
-    tel: '02-1234-5678',
-    lat: 37.5665,
-    lng: 126.9780,
-  },
-};
+```env
+# 신랑/신부 정보
+NEXT_PUBLIC_GROOM_NAME=홍길동
+NEXT_PUBLIC_BRIDE_NAME=김영희
+
+# 결혼식 일정
+NEXT_PUBLIC_WEDDING_DATE=2024-12-25
+NEXT_PUBLIC_WEDDING_TIME=14:00
+
+# 장소 정보
+NEXT_PUBLIC_LOCATION_NAME=그랜드 웨딩홀
+NEXT_PUBLIC_LOCATION_ADDRESS=서울특별시 강남구 테헤란로 123
+NEXT_PUBLIC_LOCATION_LAT=37.5665
+NEXT_PUBLIC_LOCATION_LNG=126.9780
 ```
+
+**GitHub Pages 배포**: GitHub Secrets를 수정하세요 (위 배포 섹션 참조)
+
+> 💡 모든 개인정보는 환경 변수로 관리되므로 `lib/data.ts` 파일을 직접 수정할 필요가 없습니다.
 
 ### 🖼️ 갤러리 이미지 추가
 
@@ -198,28 +201,79 @@ colors: {
 
 이 프로젝트는 GitHub Actions를 사용한 자동 배포가 설정되어 있습니다.
 
-1. **GitHub에 푸시**
-   ```bash
-   git add .
-   git commit -m "Update wedding info"
-   git push origin main
-   ```
+#### 1️⃣ GitHub Secrets 설정 (개인정보 보호)
 
-2. **GitHub Pages 활성화**
-   - GitHub 저장소의 **Settings** → **Pages** 메뉴로 이동
-   - **Source**를 **GitHub Actions**로 선택
-   - 자동으로 배포가 시작됩니다
+⚠️ **중요**: 개인정보는 GitHub Secrets에 저장하여 보안을 유지합니다.
 
-3. **배포 확인**
-   - **Actions** 탭에서 배포 진행 상황 확인
-   - 배포 완료 후 `https://[username].github.io/mobile-wedding-invitation/`에서 확인
+1. GitHub 저장소의 **Settings** → **Secrets and variables** → **Actions** 메뉴로 이동
+2. **New repository secret** 버튼 클릭
+3. 아래 환경 변수들을 하나씩 추가:
+
+**필수 환경 변수**:
+```
+GROOM_NAME=홍길동
+GROOM_FATHER=홍아버지
+GROOM_MOTHER=홍어머니
+BRIDE_NAME=김영희
+BRIDE_FATHER=김아버지
+BRIDE_MOTHER=김어머니
+WEDDING_DATE=2024-12-25
+WEDDING_TIME=14:00
+LOCATION_NAME=그랜드 웨딩홀
+LOCATION_ADDRESS=서울특별시 강남구 테헤란로 123
+LOCATION_LAT=37.5665
+LOCATION_LNG=126.9780
+```
+
+**선택 환경 변수** (필요한 경우만 추가):
+```
+GROOM_ACCOUNT_BANK=국민은행
+GROOM_ACCOUNT_NUMBER=123-456-789012
+GROOM_ACCOUNT_HOLDER=홍길동
+BRIDE_ACCOUNT_BANK=신한은행
+BRIDE_ACCOUNT_NUMBER=987-654-321098
+BRIDE_ACCOUNT_HOLDER=김영희
+LOCATION_TEL=02-1234-5678
+INVITATION_MESSAGE=초대 메시지 내용
+GALLERY_COUNT=6
+FIREBASE_API_KEY=your-firebase-api-key
+FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+FIREBASE_MESSAGING_SENDER_ID=123456789
+FIREBASE_APP_ID=your-app-id
+```
+
+> 💡 **팁**: Secret 이름은 대문자로 작성하고, `NEXT_PUBLIC_` 접두사는 **제외**합니다.
+
+#### 2️⃣ GitHub Pages 활성화
+
+1. GitHub 저장소의 **Settings** → **Pages** 메뉴로 이동
+2. **Source**를 **GitHub Actions**로 선택
+
+#### 3️⃣ 배포
+
+```bash
+git add .
+git commit -m "Update wedding info"
+git push origin main
+```
+
+#### 4️⃣ 배포 확인
+
+- **Actions** 탭에서 배포 진행 상황 확인
+- 배포 완료 후 `https://[username].github.io/mobile-wedding-invitation/`에서 확인
 
 ### Vercel 배포
 
 1. [Vercel](https://vercel.com)에 가입하고 GitHub 저장소를 import
-2. 환경 변수에 Firebase 설정 추가 (방명록 기능 사용 시)
+2. **Environment Variables** 설정:
+   - `.env.local.example` 파일의 모든 환경 변수를 추가
+   - `NEXT_PUBLIC_BASE_PATH`는 제거 (Vercel에서는 불필요)
 3. 배포 버튼 클릭
 4. 자동으로 도메인 생성
+
+> 💡 Vercel에서는 환경 변수 이름에 `NEXT_PUBLIC_` 접두사를 **포함**합니다.
 
 ## 🔥 Firebase 설정 (방명록 기능)
 
