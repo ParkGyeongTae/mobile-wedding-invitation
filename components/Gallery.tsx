@@ -41,10 +41,6 @@ export default function Gallery() {
               </motion.div>
             ))}
           </div>
-
-          <p className="text-center text-sm text-gray-500 mt-8">
-            * 갤러리 이미지는 /public/images/gallery/ 폴더에 추가하세요
-          </p>
         </motion.div>
       </div>
 
