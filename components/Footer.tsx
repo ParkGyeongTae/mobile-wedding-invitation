@@ -23,8 +23,8 @@ export default function Footer() {
           </p>
         </div>
         <div className="text-xs text-gray-600">
-          <p>© 2024 Mobile Wedding Invitation</p>
-          <p className="mt-2">Made with ♥ Next.js & Tailwind CSS</p>
+          <p>© 2026 Mobile Wedding Invitation</p>
+          <p className="mt-2">Made by 박경태</p>
         </div>
       </div>
     </footer>
