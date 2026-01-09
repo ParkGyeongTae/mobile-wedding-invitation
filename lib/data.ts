@@ -36,9 +36,12 @@ export const weddingInfo: WeddingInfo = {
 // 갤러리 이미지 개수 (환경 변수로 설정 가능)
 const galleryCount = parseInt(process.env.NEXT_PUBLIC_GALLERY_COUNT || '6', 10);
 
+// basePath 처리 (GitHub Pages 배포용)
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 export const galleryImages: GalleryImage[] = Array.from({ length: galleryCount }, (_, i) => ({
   id: String(i + 1),
-  url: `/images/gallery/${i + 1}.jpg`,
+  url: `${basePath}/images/gallery/${i + 1}.jpg`,
   alt: `Wedding Photo ${i + 1}`,
 }));
 
