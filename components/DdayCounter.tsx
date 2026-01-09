@@ -59,7 +59,7 @@ export default function DdayCounter() {
           </h2>
 
           {dday >= 0 && (
-            <div className="grid grid-cols-4 gap-4 max-w-lg mx-auto">
+            <div className="grid grid-cols-4 gap-2 sm:gap-4 max-w-lg mx-auto">
               {[
                 { label: 'DAYS', value: timeLeft.days },
                 { label: 'HOURS', value: timeLeft.hours },
@@ -71,12 +71,12 @@ export default function DdayCounter() {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                   transition={{ duration: 0.4, delay: index * 0.1 }}
-                  className="bg-white rounded-lg shadow-md p-6"
+                  className="bg-white rounded-lg shadow-md p-3 sm:p-6"
                 >
-                  <div className="font-playfair text-4xl font-bold text-pastel-gold-dark mb-2">
+                  <div className="font-playfair text-2xl sm:text-4xl font-bold text-pastel-gold-dark mb-1 sm:mb-2">
                     {item.value.toString().padStart(2, '0')}
                   </div>
-                  <div className="text-xs text-gray-500 uppercase tracking-wider">
+                  <div className="text-[0.6rem] sm:text-xs text-gray-500 uppercase tracking-wider">
                     {item.label}
                   </div>
                 </motion.div>
