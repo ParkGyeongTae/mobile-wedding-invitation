@@ -32,11 +32,13 @@ export default function Gallery() {
                 className="relative aspect-square overflow-hidden rounded-lg shadow-md cursor-pointer group"
                 onClick={() => setSelectedImage(image.url)}
               >
-                <div className="w-full h-full bg-gradient-to-br from-pastel-pink to-pastel-gold relative">
-                  <div className="absolute inset-0 flex items-center justify-center text-pastel-gold-dark text-sm">
-                    이미지 {index + 1}
-                  </div>
-                </div>
+                <Image
+                  src={image.url}
+                  alt={image.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 50vw, 33vw"
+                />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300" />
               </motion.div>
             ))}
@@ -56,15 +58,24 @@ export default function Gallery() {
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
             exit={{ scale: 0.8 }}
-            className="relative max-w-4xl max-h-[90vh] w-full h-full"
+            className="relative max-w-4xl max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
           >
             <button
-              className="absolute top-4 right-4 text-white text-4xl z-10 hover:text-gray-300"
+              className="absolute -top-10 right-0 text-white text-4xl z-10 hover:text-gray-300"
               onClick={() => setSelectedImage(null)}
             >
               ×
             </button>
-            <div className="w-full h-full bg-gradient-to-br from-pastel-pink to-pastel-gold rounded-lg" />
+            <div className="relative w-full h-full">
+              <Image
+                src={selectedImage}
+                alt="Wedding photo"
+                width={1200}
+                height={800}
+                className="object-contain rounded-lg max-h-[90vh] w-auto h-auto"
+              />
+            </div>
           </motion.div>
         </motion.div>
       )}
