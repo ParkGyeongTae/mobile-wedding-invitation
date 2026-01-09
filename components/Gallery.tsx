@@ -22,6 +22,22 @@ export default function Gallery() {
     setSelectedIndex((selectedIndex + 1) % galleryImages.length);
   };
 
+  // 모달 열림 시 배경 스크롤 비활성화
+  useEffect(() => {
+    if (selectedIndex !== null) {
+      // 스크롤 비활성화
+      document.body.style.overflow = 'hidden';
+    } else {
+      // 스크롤 복원
+      document.body.style.overflow = '';
+    }
+
+    // cleanup: 컴포넌트 언마운트 시 복원
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedIndex]);
+
   // 키보드 이벤트 처리 (좌우 화살표)
   useEffect(() => {
     if (selectedIndex === null) return;
