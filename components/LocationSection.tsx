@@ -9,6 +9,14 @@ export default function LocationSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
 
+  const openTmap = () => {
+    const { name } = weddingInfo.location;
+    window.open(
+      `tmap://search?name=${encodeURIComponent(name)}`,
+      '_blank'
+    );
+  };
+
   const openNaverMap = () => {
     const { lat, lng, name } = weddingInfo.location;
     window.open(
@@ -104,7 +112,13 @@ export default function LocationSection() {
             </div>
           </div>
 
-          <div className="grid grid-cols-3 gap-3 mb-6">
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            <button
+              onClick={openTmap}
+              className="bg-sky-500 hover:bg-sky-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+            >
+              티맵
+            </button>
             <button
               onClick={openNaverMap}
               className="bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
