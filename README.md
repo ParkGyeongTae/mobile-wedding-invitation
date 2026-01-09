@@ -15,6 +15,21 @@
 
 ---
 
+## 📑 목차
+
+- [주요 기능](#-주요-기능)
+- [기술 스택](#️-기술-스택)
+- [프로젝트 구조](#-프로젝트-구조)
+- [빠른 시작](#-빠른-시작)
+- [커스터마이징](#️-커스터마이징)
+- [배포](#-배포)
+- [Firebase 설정](#-firebase-설정-방명록-기능)
+- [문제 해결](#-문제-해결)
+- [기여](#-기여)
+- [라이선스](#-라이선스)
+
+---
+
 ## ✨ 주요 기능
 
 <table>
@@ -42,6 +57,27 @@
 </td>
 </tr>
 </table>
+
+---
+
+## 📸 스크린샷
+
+<div align="center">
+
+### 메인 화면
+![Hero Section](docs/screenshots/hero.png)
+
+### D-Day 카운터 & 갤러리
+![Features](docs/screenshots/features.png)
+
+### 지도 & 방명록
+![Interactive](docs/screenshots/interactive.png)
+
+> 실제 스크린샷은 `docs/screenshots/` 폴더에 추가하세요.
+
+</div>
+
+---
 
 ## 🛠️ 기술 스택
 
@@ -85,26 +121,31 @@ mobile-wedding-invitation/
 
 ## 🚀 빠른 시작
 
-### 1. 저장소 클론
+### 전제 조건
+
+- Node.js 18.x 이상
+- npm 또는 yarn
+- Git
+
+### 1. 저장소 클론 및 설치
 
 ```bash
+# 저장소 클론
 git clone https://github.com/ParkGyeongTae/mobile-wedding-invitation.git
 cd mobile-wedding-invitation
-```
 
-### 2. 의존성 설치
-
-```bash
+# 의존성 설치
 npm install
 ```
 
-### 3. 환경 변수 설정 (개인정보 입력)
+### 2. 환경 변수 설정
 
 ```bash
+# 환경 변수 템플릿 복사
 cp .env.local.example .env.local
 ```
 
-`.env.local` 파일을 열어 개인정보를 입력하세요:
+`.env.local` 파일을 열어 아래 필수 정보를 입력하세요:
 
 ```env
 # 개인정보 (필수)
@@ -129,18 +170,28 @@ NEXT_PUBLIC_GROOM_ACCOUNT_HOLDER=홍길동
 # Firebase (방명록 기능 사용 시)
 NEXT_PUBLIC_FIREBASE_API_KEY=your-api-key
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project-id.firebaseapp.com
-# ... (나머지 Firebase 설정)
+# ... (나머지 Firebase 설정은 .env.local.example 참조)
 ```
 
-> ⚠️ **중요**: `.env.local` 파일은 개인정보가 포함되어 있으므로 **절대 Git에 커밋하지 마세요**. `.gitignore`에 이미 포함되어 있습니다.
+> ⚠️ **보안**: `.env.local` 파일은 개인정보가 포함되므로 Git에 커밋하지 마세요.
+> ✅ `.gitignore`에 이미 포함되어 있어 자동으로 제외됩니다.
 
-### 4. 개발 서버 실행
+### 3. 개발 서버 실행
 
 ```bash
+# 개발 서버 시작
 npm run dev
+
+# 또는 빌드 후 실행
+npm run build
+npm start
 ```
 
 브라우저에서 [http://localhost:3000](http://localhost:3000)을 열어 확인하세요.
+
+### 4. (선택) Firebase 방명록 설정
+
+방명록 기능을 사용하려면 [Firebase 설정](#-firebase-설정-방명록-기능) 섹션을 참조하세요.
 
 ## ⚙️ 커스터마이징
 
@@ -341,23 +392,93 @@ npm install -D autoprefixer
 2. **Actions** 탭에서 배포가 성공적으로 완료되었는지 확인
 3. 배포 완료 후 5-10분 정도 기다려보세요
 
-## 📄 라이선스
-
-MIT License - 자유롭게 사용하고 수정할 수 있습니다.
-
 ## 🤝 기여
 
-개선 사항이나 버그 리포트는 이슈로 등록해주세요!
+프로젝트에 기여하고 싶으신가요? 환영합니다!
+
+### 기여 방법
+
+1. **이 저장소를 포크하세요**
+   ```bash
+   # GitHub에서 Fork 버튼 클릭
+   ```
+
+2. **새로운 브랜치를 생성하세요**
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+
+3. **변경 사항을 커밋하세요**
+   ```bash
+   git commit -m "feat: Add amazing feature"
+   ```
+
+4. **브랜치에 푸시하세요**
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+
+5. **Pull Request를 생성하세요**
+   - 변경 사항을 설명해주세요
+   - 관련 이슈가 있다면 링크해주세요
+
+### 기여 가이드라인
+
+- 코드 스타일: ESLint 및 Prettier 설정 준수
+- 커밋 메시지: [Conventional Commits](https://www.conventionalcommits.org/) 규칙 따르기
+- 테스트: 새로운 기능에는 테스트 코드 추가
+- 문서: README 및 CLAUDE.md 업데이트
+
+### 버그 리포트 & 기능 제안
+
+[GitHub Issues](https://github.com/ParkGyeongTae/mobile-wedding-invitation/issues)에 등록해주세요:
+- 🐛 버그 리포트: 재현 방법, 예상 동작, 실제 동작 포함
+- ✨ 기능 제안: 사용 사례, 예상 효과 설명
+
+---
+
+## 📄 라이선스
+
+이 프로젝트는 MIT License로 배포됩니다.
+- 상업적/비상업적 용도로 자유롭게 사용 가능
+- 수정 및 배포 가능
+- 라이선스 및 저작권 표시 필수
+
+자세한 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
+
+---
 
 ## 💡 개발 노트
 
-이 프로젝트는 [Claude Code](https://claude.com/claude-code)를 사용하여 개발되었습니다.
-자세한 개발 과정과 의사결정은 [CLAUDE.md](./CLAUDE.md)에서 확인하실 수 있습니다.
+이 프로젝트는 [Claude Code](https://claude.com/claude-code)를 사용하여 **2시간 15분**만에 개발되었습니다.
+
+### 개발 관련 문서
+- [CLAUDE.md](./CLAUDE.md) - 상세한 개발 과정 및 기술 의사결정
+- 개발 타임라인, 트러블슈팅, Claude Code 활용 팁 포함
+
+### 기술 스택 선택 이유
+- **Next.js 15**: App Router, Static Export, 뛰어난 개발자 경험
+- **TypeScript**: 타입 안정성으로 런타임 에러 방지
+- **Tailwind CSS**: 빠른 프로토타이핑, 일관된 디자인 시스템
+- **Framer Motion**: 선언적 애니메이션, 뛰어난 성능
+- **Firebase**: 실시간 데이터베이스, 무료 티어, 쉬운 설정
+
+---
+
+## 🌟 Acknowledgments
+
+- [Next.js](https://nextjs.org/) - React 프레임워크
+- [Tailwind CSS](https://tailwindcss.com/) - CSS 프레임워크
+- [Framer Motion](https://www.framer.com/motion/) - 애니메이션 라이브러리
+- [Firebase](https://firebase.google.com/) - 백엔드 서비스
+- [Claude Code](https://claude.com/claude-code) - AI 개발 도구
 
 ---
 
 <div align="center">
 
 Made with 💖 using Next.js & Tailwind CSS
+
+**[⬆ 맨 위로 돌아가기](#-모바일-청첩장-mobile-wedding-invitation)**
 
 </div>
