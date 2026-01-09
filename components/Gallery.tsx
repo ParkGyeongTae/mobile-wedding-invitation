@@ -1,14 +1,50 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Image from 'next/image';
 import { galleryImages } from '@/lib/data';
 
 export default function Gallery() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
-  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+
+  // 이전 이미지로 이동
+  const goToPrevious = () => {
+    if (selectedIndex === null) return;
+    setSelectedIndex((selectedIndex - 1 + galleryImages.length) % galleryImages.length);
+  };
+
+  // 다음 이미지로 이동
+  const goToNext = () => {
+    if (selectedIndex === null) return;
+    setSelectedIndex((selectedIndex + 1) % galleryImages.length);
+  };
+
+  // 키보드 이벤트 처리 (좌우 화살표)
+  useEffect(() => {
+    if (selectedIndex === null) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        setSelectedIndex((prev) => {
+          if (prev === null) return prev;
+          return (prev - 1 + galleryImages.length) % galleryImages.length;
+        });
+      } else if (e.key === 'ArrowRight') {
+        setSelectedIndex((prev) => {
+          if (prev === null) return prev;
+          return (prev + 1) % galleryImages.length;
+        });
+      } else if (e.key === 'Escape') {
+        setSelectedIndex(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedIndex]);
 
   return (
     <section ref={ref} className="py-20 px-6 bg-white">
@@ -30,7 +66,7 @@ export default function Gallery() {
                 animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
                 transition={{ duration: 0.4, delay: index * 0.1 }}
                 className="relative aspect-square overflow-hidden rounded-lg shadow-md cursor-pointer group"
-                onClick={() => setSelectedImage(image.url)}
+                onClick={() => setSelectedIndex(index)}
               >
                 <Image
                   src={image.url}
@@ -46,37 +82,81 @@ export default function Gallery() {
         </motion.div>
       </div>
 
-      {selectedImage && (
+      {selectedIndex !== null && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-          onClick={() => setSelectedImage(null)}
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center"
+          onClick={() => setSelectedIndex(null)}
         >
+          {/* 닫기 버튼 */}
+          <button
+            className="absolute top-4 right-4 text-white text-4xl z-20 hover:text-gray-300 transition-colors"
+            onClick={() => setSelectedIndex(null)}
+          >
+            ×
+          </button>
+
+          {/* 이전 버튼 */}
+          <button
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl z-20 hover:text-gray-300 transition-colors bg-black/50 rounded-full w-12 h-12 flex items-center justify-center"
+            onClick={(e) => {
+              e.stopPropagation();
+              goToPrevious();
+            }}
+          >
+            ‹
+          </button>
+
+          {/* 이미지 컨테이너 (스와이프 가능) */}
           <motion.div
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0.8 }}
-            className="relative max-w-4xl max-h-[90vh]"
+            key={selectedIndex}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ duration: 0.3 }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(_, info) => {
+              // 스와이프 감지 (100px 이상 드래그 시)
+              if (info.offset.x > 100) {
+                goToPrevious();
+              } else if (info.offset.x < -100) {
+                goToNext();
+              }
+            }}
+            className="relative max-w-4xl max-h-[90vh] w-full px-16 cursor-grab active:cursor-grabbing"
             onClick={(e) => e.stopPropagation()}
           >
-            <button
-              className="absolute -top-10 right-0 text-white text-4xl z-10 hover:text-gray-300"
-              onClick={() => setSelectedImage(null)}
-            >
-              ×
-            </button>
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-[90vh] flex items-center justify-center">
               <Image
-                src={selectedImage}
-                alt="Wedding photo"
+                src={galleryImages[selectedIndex].url}
+                alt={galleryImages[selectedIndex].alt}
                 width={1200}
                 height={800}
-                className="object-contain rounded-lg max-h-[90vh] w-auto h-auto"
+                className="object-contain rounded-lg max-h-full w-auto h-auto select-none"
+                draggable={false}
               />
             </div>
+
+            {/* 이미지 카운터 */}
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-black/50 px-4 py-2 rounded-full">
+              {selectedIndex + 1} / {galleryImages.length}
+            </div>
           </motion.div>
+
+          {/* 다음 버튼 */}
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl z-20 hover:text-gray-300 transition-colors bg-black/50 rounded-full w-12 h-12 flex items-center justify-center"
+            onClick={(e) => {
+              e.stopPropagation();
+              goToNext();
+            }}
+          >
+            ›
+          </button>
         </motion.div>
       )}
     </section>
