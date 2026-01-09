@@ -2,7 +2,7 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState, useEffect } from 'react';
-import { db } from '@/lib/firebase';
+import { db, isFirebaseConfigured } from '@/lib/firebase';
 import {
   collection,
   addDoc,
@@ -24,6 +24,12 @@ export default function Guestbook() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Firebase 미설정 시 조기 종료
+    if (!isFirebaseConfigured() || !db) {
+      setError('방명록 기능을 사용하려면 Firebase 설정이 필요합니다.');
+      return;
+    }
+
     try {
       const q = query(
         collection(db, 'guestbook'),
@@ -45,14 +51,14 @@ export default function Guestbook() {
         },
         (err) => {
           console.error('Error fetching guestbook:', err);
-          setError('방명록을 불러오는 중 오류가 발생했습니다.');
+          setError('방명록을 불러오는 중 오류가 발생했습니다. Firebase 보안 규칙을 확인해주세요.');
         }
       );
 
       return () => unsubscribe();
     } catch (err) {
       console.error('Firebase initialization error:', err);
-      setError('Firebase 설정이 필요합니다. .env.local 파일을 확인해주세요.');
+      setError('Firebase 연결에 실패했습니다.');
     }
   }, []);
 
@@ -61,6 +67,12 @@ export default function Guestbook() {
 
     if (!name.trim() || !message.trim()) {
       alert('이름과 메시지를 입력해주세요.');
+      return;
+    }
+
+    // Firebase 미설정 시 조기 종료
+    if (!isFirebaseConfigured() || !db) {
+      alert('방명록 기능을 사용하려면 Firebase 설정이 필요합니다.');
       return;
     }
 
@@ -76,9 +88,17 @@ export default function Guestbook() {
       setName('');
       setMessage('');
       alert('방명록이 등록되었습니다!');
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error adding guestbook entry:', err);
-      alert('방명록 등록에 실패했습니다. 다시 시도해주세요.');
+
+      // 에러 타입에 따른 상세 메시지
+      if (err?.code === 'permission-denied') {
+        alert('방명록 등록 권한이 없습니다. Firebase 보안 규칙을 확인해주세요.');
+      } else if (err?.code === 'unavailable') {
+        alert('네트워크 연결을 확인해주세요.');
+      } else {
+        alert('방명록 등록에 실패했습니다. 다시 시도해주세요.');
+      }
     } finally {
       setIsSubmitting(false);
     }
