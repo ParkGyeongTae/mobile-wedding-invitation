@@ -15,7 +15,6 @@ export default function Gallery() {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [initialDistance, setInitialDistance] = useState(0);
   const [initialScale, setInitialScale] = useState(1);
-  const [lastPanPosition, setLastPanPosition] = useState({ x: 0, y: 0 });
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
   // 두 터치 포인트 사이의 거리 계산
@@ -31,7 +30,6 @@ export default function Gallery() {
       const distance = getDistance(e.touches[0], e.touches[1]);
       setInitialDistance(distance);
       setInitialScale(scale);
-      setLastPanPosition(position);
     }
   };
 
@@ -42,16 +40,17 @@ export default function Gallery() {
       const distance = getDistance(e.touches[0], e.touches[1]);
       const newScale = Math.min(Math.max((distance / initialDistance) * initialScale, 1), 4);
       setScale(newScale);
+
+      // 스케일이 1 이하로 축소되면 위치를 중앙으로 리셋
+      if (newScale <= 1) {
+        setPosition({ x: 0, y: 0 });
+      }
     }
   };
 
   // 핀치 줌 종료
   const handleTouchEnd = (e: React.TouchEvent) => {
     setInitialDistance(0);
-    // 줌 아웃되면 위치 리셋
-    if (scale <= 1) {
-      setPosition({ x: 0, y: 0 });
-    }
   };
 
   // 더블 탭으로 줌 인/아웃
@@ -70,6 +69,13 @@ export default function Gallery() {
     setScale(1);
     setPosition({ x: 0, y: 0 });
   }, [selectedIndex]);
+
+  // 스케일이 1 이하로 축소되면 위치를 자동으로 중앙으로 리셋
+  useEffect(() => {
+    if (scale <= 1) {
+      setPosition({ x: 0, y: 0 });
+    }
+  }, [scale]);
 
   // 이전 이미지로 이동
   const goToPrevious = () => {
