@@ -12,8 +12,10 @@ export default function Gallery() {
 
   // 핀치 줌 상태
   const [scale, setScale] = useState(1);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [initialDistance, setInitialDistance] = useState(0);
   const [initialScale, setInitialScale] = useState(1);
+  const [lastPanPosition, setLastPanPosition] = useState({ x: 0, y: 0 });
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
   // 두 터치 포인트 사이의 거리 계산
@@ -26,10 +28,10 @@ export default function Gallery() {
   // 핀치 줌 시작
   const handleTouchStart = (e: React.TouchEvent) => {
     if (e.touches.length === 2) {
-      e.preventDefault();
       const distance = getDistance(e.touches[0], e.touches[1]);
       setInitialDistance(distance);
       setInitialScale(scale);
+      setLastPanPosition(position);
     }
   };
 
@@ -40,29 +42,33 @@ export default function Gallery() {
       const distance = getDistance(e.touches[0], e.touches[1]);
       const newScale = Math.min(Math.max((distance / initialDistance) * initialScale, 1), 4);
       setScale(newScale);
-    } else if (e.touches.length === 1 && scale > 1) {
-      // 확대된 상태에서 한 손가락으로 드래그 (패닝)
-      e.preventDefault();
     }
   };
 
   // 핀치 줌 종료
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e: React.TouchEvent) => {
     setInitialDistance(0);
+    // 줌 아웃되면 위치 리셋
+    if (scale <= 1) {
+      setPosition({ x: 0, y: 0 });
+    }
   };
 
   // 더블 탭으로 줌 인/아웃
   const handleDoubleClick = () => {
     if (scale > 1) {
       setScale(1);
+      setPosition({ x: 0, y: 0 });
     } else {
       setScale(2);
+      setPosition({ x: 0, y: 0 });
     }
   };
 
   // 이미지 변경 시 줌 리셋
   useEffect(() => {
     setScale(1);
+    setPosition({ x: 0, y: 0 });
   }, [selectedIndex]);
 
   // 이전 이미지로 이동
@@ -200,12 +206,12 @@ export default function Gallery() {
                 }
               }
             }}
-            className={`relative max-w-4xl max-h-[90vh] w-full px-16 ${scale === 1 ? 'cursor-grab active:cursor-grabbing' : 'cursor-move'}`}
+            className="absolute inset-0"
             onClick={(e) => e.stopPropagation()}
           >
             <div
               ref={imageContainerRef}
-              className="relative w-full h-[90vh] flex items-center justify-center overflow-hidden touch-none"
+              className="relative w-full h-full flex items-center justify-center overflow-hidden touch-none"
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
@@ -213,11 +219,20 @@ export default function Gallery() {
             >
               <motion.div
                 drag={scale > 1}
-                dragConstraints={imageContainerRef}
-                dragElastic={0.1}
+                dragElastic={0.05}
                 dragMomentum={false}
                 style={{
                   scale: scale,
+                  x: position.x,
+                  y: position.y,
+                }}
+                onDragEnd={(_, info) => {
+                  if (scale > 1) {
+                    setPosition({
+                      x: position.x + info.offset.x,
+                      y: position.y + info.offset.y,
+                    });
+                  }
                 }}
                 className="select-none"
               >
@@ -226,14 +241,15 @@ export default function Gallery() {
                   alt={galleryImages[selectedIndex].alt}
                   width={1200}
                   height={800}
-                  className="object-contain rounded-lg max-h-[90vh] w-auto h-auto select-none"
+                  className="object-contain max-h-screen w-auto h-auto select-none pointer-events-none"
                   draggable={false}
+                  style={{ maxWidth: '100vw' }}
                 />
               </motion.div>
             </div>
 
             {/* 이미지 카운터 */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm bg-black/50 px-4 py-2 rounded-full">
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-white text-sm bg-black/50 px-4 py-2 rounded-full z-30 pointer-events-none">
               {selectedIndex + 1} / {galleryImages.length}
             </div>
           </motion.div>
