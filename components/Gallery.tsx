@@ -10,6 +10,61 @@ export default function Gallery() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
+  // 핀치 줌 상태
+  const [scale, setScale] = useState(1);
+  const [initialDistance, setInitialDistance] = useState(0);
+  const [initialScale, setInitialScale] = useState(1);
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+
+  // 두 터치 포인트 사이의 거리 계산
+  const getDistance = (touch1: Touch, touch2: Touch) => {
+    const dx = touch1.clientX - touch2.clientX;
+    const dy = touch1.clientY - touch2.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  };
+
+  // 핀치 줌 시작
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      e.preventDefault();
+      const distance = getDistance(e.touches[0], e.touches[1]);
+      setInitialDistance(distance);
+      setInitialScale(scale);
+    }
+  };
+
+  // 핀치 줌 중
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 2 && initialDistance > 0) {
+      e.preventDefault();
+      const distance = getDistance(e.touches[0], e.touches[1]);
+      const newScale = Math.min(Math.max((distance / initialDistance) * initialScale, 1), 4);
+      setScale(newScale);
+    } else if (e.touches.length === 1 && scale > 1) {
+      // 확대된 상태에서 한 손가락으로 드래그 (패닝)
+      e.preventDefault();
+    }
+  };
+
+  // 핀치 줌 종료
+  const handleTouchEnd = () => {
+    setInitialDistance(0);
+  };
+
+  // 더블 탭으로 줌 인/아웃
+  const handleDoubleClick = () => {
+    if (scale > 1) {
+      setScale(1);
+    } else {
+      setScale(2);
+    }
+  };
+
+  // 이미지 변경 시 줌 리셋
+  useEffect(() => {
+    setScale(1);
+  }, [selectedIndex]);
+
   // 이전 이미지로 이동
   const goToPrevious = () => {
     if (selectedIndex === null) return;
@@ -132,29 +187,49 @@ export default function Gallery() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -100 }}
             transition={{ duration: 0.3 }}
-            drag="x"
+            drag={scale === 1 ? "x" : false}
             dragConstraints={{ left: 0, right: 0 }}
             dragElastic={0.2}
             onDragEnd={(_, info) => {
-              // 스와이프 감지 (100px 이상 드래그 시)
-              if (info.offset.x > 100) {
-                goToPrevious();
-              } else if (info.offset.x < -100) {
-                goToNext();
+              // 스와이프 감지 (100px 이상 드래그 시, scale이 1일 때만)
+              if (scale === 1) {
+                if (info.offset.x > 100) {
+                  goToPrevious();
+                } else if (info.offset.x < -100) {
+                  goToNext();
+                }
               }
             }}
-            className="relative max-w-4xl max-h-[90vh] w-full px-16 cursor-grab active:cursor-grabbing"
+            className={`relative max-w-4xl max-h-[90vh] w-full px-16 ${scale === 1 ? 'cursor-grab active:cursor-grabbing' : 'cursor-move'}`}
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative w-full h-[90vh] flex items-center justify-center">
-              <Image
-                src={galleryImages[selectedIndex].url}
-                alt={galleryImages[selectedIndex].alt}
-                width={1200}
-                height={800}
-                className="object-contain rounded-lg max-h-full w-auto h-auto select-none"
-                draggable={false}
-              />
+            <div
+              ref={imageContainerRef}
+              className="relative w-full h-[90vh] flex items-center justify-center overflow-hidden touch-none"
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+              onDoubleClick={handleDoubleClick}
+            >
+              <motion.div
+                drag={scale > 1}
+                dragConstraints={imageContainerRef}
+                dragElastic={0.1}
+                dragMomentum={false}
+                style={{
+                  scale: scale,
+                }}
+                className="select-none"
+              >
+                <Image
+                  src={galleryImages[selectedIndex].url}
+                  alt={galleryImages[selectedIndex].alt}
+                  width={1200}
+                  height={800}
+                  className="object-contain rounded-lg max-h-[90vh] w-auto h-auto select-none"
+                  draggable={false}
+                />
+              </motion.div>
             </div>
 
             {/* 이미지 카운터 */}
