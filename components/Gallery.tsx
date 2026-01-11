@@ -12,7 +12,6 @@ export default function Gallery() {
 
   // 핀치 줌 상태
   const [scale, setScale] = useState(1);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [initialDistance, setInitialDistance] = useState(0);
   const [initialScale, setInitialScale] = useState(1);
   const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -40,11 +39,6 @@ export default function Gallery() {
       const distance = getDistance(e.touches[0], e.touches[1]);
       const newScale = Math.min(Math.max((distance / initialDistance) * initialScale, 1), 4);
       setScale(newScale);
-
-      // 스케일이 1 이하로 축소되면 위치를 중앙으로 리셋
-      if (newScale <= 1) {
-        setPosition({ x: 0, y: 0 });
-      }
     }
   };
 
@@ -57,25 +51,15 @@ export default function Gallery() {
   const handleDoubleClick = () => {
     if (scale > 1) {
       setScale(1);
-      setPosition({ x: 0, y: 0 });
     } else {
       setScale(2);
-      setPosition({ x: 0, y: 0 });
     }
   };
 
   // 이미지 변경 시 줌 리셋
   useEffect(() => {
     setScale(1);
-    setPosition({ x: 0, y: 0 });
   }, [selectedIndex]);
-
-  // 스케일이 1 이하로 축소되면 위치를 자동으로 중앙으로 리셋
-  useEffect(() => {
-    if (scale <= 1) {
-      setPosition({ x: 0, y: 0 });
-    }
-  }, [scale]);
 
   // 이전 이미지로 이동
   const goToPrevious = () => {
@@ -224,21 +208,13 @@ export default function Gallery() {
               onDoubleClick={handleDoubleClick}
             >
               <motion.div
-                drag={scale > 1}
-                dragElastic={0.05}
-                dragMomentum={false}
                 style={{
                   scale: scale,
-                  x: position.x,
-                  y: position.y,
                 }}
-                onDragEnd={(_, info) => {
-                  if (scale > 1) {
-                    setPosition({
-                      x: position.x + info.offset.x,
-                      y: position.y + info.offset.y,
-                    });
-                  }
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 30,
                 }}
                 className="select-none"
               >
