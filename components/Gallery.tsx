@@ -17,7 +17,7 @@ export default function Gallery() {
   const imageContainerRef = useRef<HTMLDivElement>(null);
 
   // 두 터치 포인트 사이의 거리 계산
-  const getDistance = (touch1: Touch, touch2: Touch) => {
+  const getDistance = (touch1: React.Touch, touch2: React.Touch) => {
     const dx = touch1.clientX - touch2.clientX;
     const dy = touch1.clientY - touch2.clientY;
     return Math.sqrt(dx * dx + dy * dy);
