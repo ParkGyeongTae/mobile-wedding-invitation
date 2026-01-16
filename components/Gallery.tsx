@@ -167,7 +167,7 @@ export default function Gallery() {
 
           {/* 왼쪽 화살표 버튼 */}
           <button
-            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 text-white text-5xl hover:text-gray-300 transition-colors bg-black/30 hover:bg-black/50 rounded-full w-12 h-12 flex items-center justify-center"
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 text-white text-5xl hover:text-gray-300 transition-colors bg-black/30 hover:bg-black/50 rounded-full w-12 h-12 flex items-center justify-center leading-none"
             onClick={(e) => {
               e.stopPropagation();
               goToPrevious();
@@ -178,7 +178,7 @@ export default function Gallery() {
 
           {/* 오른쪽 화살표 버튼 */}
           <button
-            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 text-white text-5xl hover:text-gray-300 transition-colors bg-black/30 hover:bg-black/50 rounded-full w-12 h-12 flex items-center justify-center"
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 text-white text-5xl hover:text-gray-300 transition-colors bg-black/30 hover:bg-black/50 rounded-full w-12 h-12 flex items-center justify-center leading-none"
             onClick={(e) => {
               e.stopPropagation();
               goToNext();
