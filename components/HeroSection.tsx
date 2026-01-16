@@ -67,6 +67,9 @@ export default function HeroSection() {
           </p>
           <p className="text-gray-600">{weddingInfo.time}</p>
           <p className="text-gray-600">{weddingInfo.location.name}</p>
+          {weddingInfo.location.hall && (
+            <p className="text-gray-600">{weddingInfo.location.hall}</p>
+          )}
         </motion.div>
 
         <motion.div
