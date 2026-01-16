@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>네이버 지도 API 테스트</title>
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=cdv7fz1yqk"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        #map {
+            width: 100%;
+            height: 500px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+        }
+        .info {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .error {
+            background: #fee;
+            color: #c00;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .success {
+            background: #efe;
+            color: #060;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        pre {
+            background: #333;
+            color: #0f0;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        h1 {
+            color: #333;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 4px solid #0066cc;
+            background: #f0f8ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>🗺️ 네이버 지도 API 테스트</h1>
+
+    <div class="info">
+        <h3>현재 환경 정보</h3>
+        <div class="status">
+            <strong>현재 URL:</strong> <span id="currentUrl"></span>
+        </div>
+        <div class="status">
+            <strong>Referrer:</strong> <span id="referrer"></span>
+        </div>
+        <div class="status">
+            <strong>Client ID:</strong> cdv7fz1yqk
+        </div>
+        <div class="status">
+            <strong>API URL:</strong> https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=cdv7fz1yqk
+        </div>
+    </div>
+
+    <div id="status"></div>
+
+    <h3>지도 표시 영역</h3>
+    <div id="map"></div>
+
+    <div class="info" style="margin-top: 20px;">
+        <h3>테스트 로그</h3>
+        <pre id="log"></pre>
+    </div>
+
+    <script>
+        // 로그 함수
+        const log = (message, type = 'info') => {
+            const logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+            logElement.textContent += `[${timestamp}] [${type.toUpperCase()}] ${message}\n`;
+            console.log(`[${type.toUpperCase()}]`, message);
+        };
+
+        // 환경 정보 표시
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('referrer').textContent = document.referrer || '(없음)';
+
+        log('페이지 로드 시작');
+        log(`현재 URL: ${window.location.href}`);
+        log(`Referrer: ${document.referrer || '(없음)'}`);
+
+        // 네이버 지도 API 로드 확인
+        let checkAttempts = 0;
+        const maxAttempts = 50;
+
+        const checkNaverMaps = () => {
+            checkAttempts++;
+            log(`네이버 지도 API 로드 확인 시도 ${checkAttempts}/${maxAttempts}`);
+
+            if (typeof naver !== 'undefined' && naver.maps) {
+                log('✅ 네이버 지도 API 로드 성공!', 'success');
+                document.getElementById('status').innerHTML =
+                    '<div class="success"><strong>✅ 성공:</strong> 네이버 지도 API가 정상적으로 로드되었습니다!</div>';
+
+                try {
+                    initMap();
+                } catch (error) {
+                    log(`❌ 지도 초기화 오류: ${error.message}`, 'error');
+                    document.getElementById('status').innerHTML +=
+                        `<div class="error"><strong>❌ 오류:</strong> 지도 초기화 실패 - ${error.message}</div>`;
+                }
+            } else if (checkAttempts >= maxAttempts) {
+                log('❌ 네이버 지도 API 로드 실패 (타임아웃)', 'error');
+                document.getElementById('status').innerHTML =
+                    '<div class="error"><strong>❌ 실패:</strong> 네이버 지도 API 로드에 실패했습니다. Client ID와 URL 설정을 확인해주세요.</div>';
+            } else {
+                setTimeout(checkNaverMaps, 100);
+            }
+        };
+
+        // 지도 초기화 함수
+        const initMap = () => {
+            log('지도 초기화 시작');
+
+            const mapOptions = {
+                center: new naver.maps.LatLng(37.3958, 126.9649),
+                zoom: 17,
+                zoomControl: true,
+                zoomControlOptions: {
+                    position: naver.maps.Position.TOP_RIGHT
+                }
+            };
+
+            log(`지도 옵션 설정: center(37.3958, 126.9649), zoom: 17`);
+
+            const map = new naver.maps.Map('map', mapOptions);
+            log('✅ 지도 객체 생성 완료', 'success');
+
+            // 마커 추가
+            const marker = new naver.maps.Marker({
+                position: new naver.maps.LatLng(37.3958, 126.9649),
+                map: map,
+                title: '더 파티움 안양'
+            });
+            log('✅ 마커 추가 완료', 'success');
+
+            // 정보창 추가
+            const infoWindow = new naver.maps.InfoWindow({
+                content: '<div style="padding:10px;"><strong>더 파티움 안양</strong><br>5층 사파이어홀</div>'
+            });
+            log('✅ 정보창 생성 완료', 'success');
+
+            naver.maps.Event.addListener(marker, 'click', function() {
+                if (infoWindow.getMap()) {
+                    infoWindow.close();
+                } else {
+                    infoWindow.open(map, marker);
+                }
+            });
+            log('✅ 마커 클릭 이벤트 등록 완료', 'success');
+
+            log('🎉 모든 지도 설정 완료!', 'success');
+        };
+
+        // 스크립트 로드 이벤트 리스너
+        window.addEventListener('load', () => {
+            log('Window load 이벤트 발생');
+            setTimeout(checkNaverMaps, 500);
+        });
+
+        // 에러 이벤트 리스너
+        window.addEventListener('error', (event) => {
+            log(`❌ 전역 에러 발생: ${event.message}`, 'error');
+            if (event.filename && event.filename.includes('naver')) {
+                document.getElementById('status').innerHTML =
+                    `<div class="error"><strong>❌ 네이버 지도 API 로드 실패</strong><br>
+                    에러 메시지: ${event.message}<br>
+                    파일: ${event.filename}<br>
+                    줄: ${event.lineno}</div>`;
+            }
+        });
+
+        // 콘솔 에러 캡처
+        const originalError = console.error;
+        console.error = function() {
+            const args = Array.from(arguments);
+            log(`Console Error: ${args.join(' ')}`, 'error');
+            originalError.apply(console, arguments);
+        };
+    </script>
+</body>
+</html>
