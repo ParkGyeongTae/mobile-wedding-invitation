@@ -4,6 +4,7 @@ import DdayCounter from '@/components/DdayCounter';
 import Gallery from '@/components/Gallery';
 import LocationSection from '@/components/LocationSection';
 import DiningSection from '@/components/DiningSection';
+import RsvpSection from '@/components/RsvpSection';
 import AccountSection from '@/components/AccountSection';
 import Guestbook from '@/components/Guestbook';
 import FloatingHearts from '@/components/FloatingHearts';
@@ -20,6 +21,7 @@ export default function Home() {
         <Gallery />
         <LocationSection />
         <DiningSection />
+        <RsvpSection />
         <AccountSection />
         <Guestbook />
         <Footer />

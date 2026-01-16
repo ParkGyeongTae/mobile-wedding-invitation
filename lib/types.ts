@@ -51,3 +51,14 @@ export interface DiningInfo {
   endTime: string;
   description?: string;
 }
+
+export interface RsvpEntry {
+  id: string;
+  name: string;
+  phone: string;
+  attendance: 'attending' | 'not-attending' | 'undecided';
+  guestCount: number;
+  mealOption?: 'regular' | 'vegetarian';
+  message?: string;
+  createdAt: Date;
+}
