@@ -43,3 +43,11 @@ export interface GuestbookEntry {
   message: string;
   createdAt: Date;
 }
+
+export interface DiningInfo {
+  floor: string;
+  type: string;
+  startTime: string;
+  endTime: string;
+  description?: string;
+}

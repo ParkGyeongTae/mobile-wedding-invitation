@@ -1,4 +1,4 @@
-import { WeddingInfo, GalleryImage } from './types';
+import { WeddingInfo, GalleryImage, DiningInfo } from './types';
 
 // 환경 변수에서 개인정보 로드
 export const weddingInfo: WeddingInfo = {
@@ -55,3 +55,12 @@ export const invitationMessage = process.env.NEXT_PUBLIC_INVITATION_MESSAGE || `
 저희 두 사람이 사랑의 이름으로 지켜나갈 수 있게
 앞날을 축복해 주시면 감사하겠습니다.
 `;
+
+// 식사 정보 (환경 변수로 설정 가능)
+export const diningInfo: DiningInfo = {
+  floor: process.env.NEXT_PUBLIC_DINING_FLOOR || '5층',
+  type: process.env.NEXT_PUBLIC_DINING_TYPE || '뷔페',
+  startTime: process.env.NEXT_PUBLIC_DINING_START_TIME || '12:20',
+  endTime: process.env.NEXT_PUBLIC_DINING_END_TIME || '14:20',
+  description: process.env.NEXT_PUBLIC_DINING_DESCRIPTION || '예식과 같은 층',
+};
