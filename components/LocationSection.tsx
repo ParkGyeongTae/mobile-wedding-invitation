@@ -73,21 +73,20 @@ export default function LocationSection() {
           marker.setAnimation(null);
         }, 1000);
 
-        // 상세한 정보창 생성
+        // 간단한 정보창 생성
         const infoWindowContent = `
           <div style="
-            min-width: 280px;
-            padding: 20px;
+            min-width: 200px;
+            padding: 16px;
             font-family: 'Noto Sans KR', sans-serif;
             line-height: 1.6;
           ">
             <div style="
-              font-size: 18px;
+              font-size: 16px;
               font-weight: bold;
               color: #333;
               margin-bottom: 8px;
-              border-bottom: 2px solid #E6C189;
-              padding-bottom: 8px;
+              text-align: center;
             ">
               📍 ${name}
             </div>
@@ -96,153 +95,21 @@ export default function LocationSection() {
               <div style="
                 font-size: 14px;
                 color: #666;
-                margin-bottom: 12px;
-                padding-left: 4px;
+                margin-bottom: 8px;
+                text-align: center;
               ">
                 ${hall}
               </div>
             ` : ''}
 
-            <div style="margin: 12px 0;">
-              <div style="
-                font-size: 13px;
-                color: #555;
-                margin-bottom: 6px;
-                display: flex;
-                align-items: start;
-              ">
-                <span style="margin-right: 6px;">📍</span>
-                <span>${address}</span>
-              </div>
-
-              ${tel ? `
-                <div style="
-                  font-size: 13px;
-                  color: #555;
-                  margin-bottom: 6px;
-                  display: flex;
-                  align-items: center;
-                ">
-                  <span style="margin-right: 6px;">📞</span>
-                  <a href="tel:${tel}"
-                     style="
-                       color: #0066cc;
-                       text-decoration: none;
-                       font-weight: 500;
-                     "
-                     onmouseover="this.style.textDecoration='underline'"
-                     onmouseout="this.style.textDecoration='none'"
-                  >
-                    ${tel}
-                  </a>
-                </div>
-              ` : ''}
-
-              <div style="
-                font-size: 13px;
-                color: #555;
-                display: flex;
-                align-items: center;
-              ">
-                <span style="margin-right: 6px;">🕐</span>
-                <span>${formatDate(weddingInfo.date)} ${weddingInfo.time}</span>
-              </div>
-            </div>
-
             <div style="
-              margin-top: 16px;
-              padding-top: 16px;
+              font-size: 13px;
+              color: #555;
+              text-align: center;
+              padding-top: 8px;
               border-top: 1px solid #eee;
             ">
-              <div style="
-                font-size: 12px;
-                color: #888;
-                margin-bottom: 10px;
-                font-weight: 500;
-              ">
-                🚗 길찾기
-              </div>
-
-              <div style="
-                display: flex;
-                gap: 6px;
-                flex-wrap: wrap;
-              ">
-                <a href="nmap://route/public?dlat=${lat}&dlng=${lng}&dname=${encodeURIComponent(name)}&appname=com.wedding.invitation"
-                   target="_blank"
-                   style="
-                     flex: 1;
-                     min-width: 80px;
-                     background: #03C75A;
-                     color: white;
-                     text-decoration: none;
-                     padding: 8px 12px;
-                     border-radius: 6px;
-                     font-size: 12px;
-                     font-weight: 500;
-                     text-align: center;
-                     display: inline-block;
-                     transition: background 0.2s;
-                   "
-                   onmouseover="this.style.background='#02b350'"
-                   onmouseout="this.style.background='#03C75A'"
-                >
-                  네이버
-                </a>
-
-                <a href="kakaomap://route?ep=${lat},${lng}&by=CAR"
-                   target="_blank"
-                   style="
-                     flex: 1;
-                     min-width: 80px;
-                     background: #FEE500;
-                     color: #3C1E1E;
-                     text-decoration: none;
-                     padding: 8px 12px;
-                     border-radius: 6px;
-                     font-size: 12px;
-                     font-weight: 500;
-                     text-align: center;
-                     display: inline-block;
-                     transition: background 0.2s;
-                   "
-                   onmouseover="this.style.background='#fdd835'"
-                   onmouseout="this.style.background='#FEE500'"
-                >
-                  카카오
-                </a>
-
-                <a href="tmap://route?goalx=${lng}&goaly=${lat}&goalname=${encodeURIComponent(name)}"
-                   target="_blank"
-                   style="
-                     flex: 1;
-                     min-width: 80px;
-                     background: #1E88E5;
-                     color: white;
-                     text-decoration: none;
-                     padding: 8px 12px;
-                     border-radius: 6px;
-                     font-size: 12px;
-                     font-weight: 500;
-                     text-align: center;
-                     display: inline-block;
-                     transition: background 0.2s;
-                   "
-                   onmouseover="this.style.background='#1565c0'"
-                   onmouseout="this.style.background='#1E88E5'"
-                >
-                  티맵
-                </a>
-              </div>
-            </div>
-
-            <div style="
-              margin-top: 12px;
-              font-size: 11px;
-              color: #999;
-              text-align: center;
-            ">
-              마커를 다시 클릭하면 닫힙니다
+              ${formatDate(weddingInfo.date)} ${weddingInfo.time}
             </div>
           </div>
         `;
