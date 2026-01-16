@@ -165,6 +165,28 @@ export default function Gallery() {
             ×
           </button>
 
+          {/* 왼쪽 화살표 버튼 */}
+          <button
+            className="absolute left-4 top-1/2 -translate-y-1/2 z-20 text-white text-5xl hover:text-gray-300 transition-colors bg-black/30 hover:bg-black/50 rounded-full w-12 h-12 flex items-center justify-center"
+            onClick={(e) => {
+              e.stopPropagation();
+              goToPrevious();
+            }}
+          >
+            ‹
+          </button>
+
+          {/* 오른쪽 화살표 버튼 */}
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 z-20 text-white text-5xl hover:text-gray-300 transition-colors bg-black/30 hover:bg-black/50 rounded-full w-12 h-12 flex items-center justify-center"
+            onClick={(e) => {
+              e.stopPropagation();
+              goToNext();
+            }}
+          >
+            ›
+          </button>
+
           {/* 이미지 컨테이너 (스와이프 가능) */}
           <motion.div
             key={selectedIndex}
