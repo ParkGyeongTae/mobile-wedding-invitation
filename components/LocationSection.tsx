@@ -15,6 +15,7 @@ export default function LocationSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<any>(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
   const [mapError, setMapError] = useState(false);
   const hasNaverMapClientId = !!process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID;
@@ -26,13 +27,29 @@ export default function LocationSection() {
       return;
     }
 
+    // 이미 지도가 초기화되었으면 다시 초기화하지 않음
+    if (mapInstanceRef.current) {
+      return;
+    }
+
     // 네이버 지도 API 로드 및 초기화
     const initMap = () => {
-      if (!window.naver || !mapRef.current) return;
+      if (!window.naver || !mapRef.current) {
+        console.warn('Naver maps API or map container not available');
+        return;
+      }
+
+      // 이미 지도가 초기화되었으면 중복 초기화 방지
+      if (mapInstanceRef.current) {
+        console.log('Map already initialized');
+        return;
+      }
 
       try {
         const { lat, lng, name } = weddingInfo.location;
         const position = new window.naver.maps.LatLng(lat, lng);
+
+        console.log('Initializing Naver Map at', { lat, lng });
 
         const map = new window.naver.maps.Map(mapRef.current, {
           center: position,
@@ -50,33 +67,49 @@ export default function LocationSection() {
           title: name,
         });
 
+        // 지도 인스턴스 저장
+        mapInstanceRef.current = map;
+
         setIsMapLoaded(true);
         setMapError(false);
-      } catch (err) {
+        console.log('Naver Map initialized successfully');
+      } catch (err: any) {
         console.error('Failed to initialize Naver Map:', err);
+        console.error('Error details:', {
+          message: err?.message,
+          code: err?.code,
+          name: err?.name,
+        });
         setMapError(true);
       }
     };
 
     // 네이버 지도 API 로드 확인
     if (window.naver && window.naver.maps) {
+      console.log('Naver Maps API already loaded');
       initMap();
     } else {
+      console.log('Waiting for Naver Maps API to load...');
       let attempts = 0;
       const maxAttempts = 50; // 5초 대기
 
       const checkNaverMaps = setInterval(() => {
         attempts++;
         if (window.naver && window.naver.maps) {
+          console.log('Naver Maps API loaded after', attempts, 'attempts');
           initMap();
           clearInterval(checkNaverMaps);
         } else if (attempts >= maxAttempts) {
+          console.error('Naver Maps API loading timeout after', maxAttempts, 'attempts');
           setMapError(true);
           clearInterval(checkNaverMaps);
         }
       }, 100);
 
-      return () => clearInterval(checkNaverMaps);
+      return () => {
+        console.log('Cleaning up interval');
+        clearInterval(checkNaverMaps);
+      };
     }
   }, [hasNaverMapClientId]);
 
