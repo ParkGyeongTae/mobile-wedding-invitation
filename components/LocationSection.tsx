@@ -16,48 +16,69 @@ export default function LocationSection() {
   const isInView = useInView(ref, { once: true, margin: '-100px' });
   const mapRef = useRef<HTMLDivElement>(null);
   const [isMapLoaded, setIsMapLoaded] = useState(false);
+  const [mapError, setMapError] = useState(false);
+  const hasNaverMapClientId = !!process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID;
 
   useEffect(() => {
+    // Client ID가 없으면 지도를 로드하지 않음
+    if (!hasNaverMapClientId) {
+      setMapError(true);
+      return;
+    }
+
     // 네이버 지도 API 로드 및 초기화
     const initMap = () => {
       if (!window.naver || !mapRef.current) return;
 
-      const { lat, lng, name } = weddingInfo.location;
-      const position = new window.naver.maps.LatLng(lat, lng);
+      try {
+        const { lat, lng, name } = weddingInfo.location;
+        const position = new window.naver.maps.LatLng(lat, lng);
 
-      const map = new window.naver.maps.Map(mapRef.current, {
-        center: position,
-        zoom: 17,
-        zoomControl: true,
-        zoomControlOptions: {
-          position: window.naver.maps.Position.TOP_RIGHT,
-        },
-      });
+        const map = new window.naver.maps.Map(mapRef.current, {
+          center: position,
+          zoom: 17,
+          zoomControl: true,
+          zoomControlOptions: {
+            position: window.naver.maps.Position.TOP_RIGHT,
+          },
+        });
 
-      // 마커 추가
-      new window.naver.maps.Marker({
-        position: position,
-        map: map,
-        title: name,
-      });
+        // 마커 추가
+        new window.naver.maps.Marker({
+          position: position,
+          map: map,
+          title: name,
+        });
 
-      setIsMapLoaded(true);
+        setIsMapLoaded(true);
+        setMapError(false);
+      } catch (err) {
+        console.error('Failed to initialize Naver Map:', err);
+        setMapError(true);
+      }
     };
 
     // 네이버 지도 API 로드 확인
     if (window.naver && window.naver.maps) {
       initMap();
     } else {
+      let attempts = 0;
+      const maxAttempts = 50; // 5초 대기
+
       const checkNaverMaps = setInterval(() => {
+        attempts++;
         if (window.naver && window.naver.maps) {
           initMap();
+          clearInterval(checkNaverMaps);
+        } else if (attempts >= maxAttempts) {
+          setMapError(true);
           clearInterval(checkNaverMaps);
         }
       }, 100);
 
       return () => clearInterval(checkNaverMaps);
     }
-  }, []);
+  }, [hasNaverMapClientId]);
 
   const openTmap = () => {
     const { name } = weddingInfo.location;
@@ -160,17 +181,72 @@ export default function LocationSection() {
 
               {/* 네이버 지도 */}
               <div className="border-t border-gray-200 pt-6 mt-6 mb-6">
-                <div
-                  ref={mapRef}
-                  className="w-full h-64 md:h-80 rounded-lg overflow-hidden bg-gray-100"
-                  style={{ minHeight: '256px' }}
-                >
-                  {!isMapLoaded && (
-                    <div className="flex items-center justify-center h-full text-gray-500">
-                      지도를 불러오는 중...
-                    </div>
-                  )}
-                </div>
+                {mapError ? (
+                  /* 지도 API가 없을 때 대체 UI */
+                  <div className="w-full rounded-lg overflow-hidden bg-gradient-to-br from-pastel-pink-light to-pastel-gold-light p-8 text-center">
+                    <svg
+                      className="w-16 h-16 mx-auto mb-4 text-pastel-gold-dark"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                    </svg>
+                    <h4 className="text-lg font-bold text-gray-800 mb-2">
+                      {weddingInfo.location.name}
+                    </h4>
+                    <p className="text-gray-600 mb-4">{weddingInfo.location.address}</p>
+                    <p className="text-sm text-gray-500 mb-6">
+                      아래 버튼을 눌러 지도 앱에서 위치를 확인하세요
+                    </p>
+                  </div>
+                ) : (
+                  /* 네이버 지도 표시 */
+                  <div
+                    ref={mapRef}
+                    className="w-full h-64 md:h-80 rounded-lg overflow-hidden bg-gray-100"
+                    style={{ minHeight: '256px' }}
+                  >
+                    {!isMapLoaded && (
+                      <div className="flex items-center justify-center h-full text-gray-500">
+                        <div className="text-center">
+                          <svg
+                            className="animate-spin h-8 w-8 mx-auto mb-2 text-pastel-gold-dark"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                          >
+                            <circle
+                              className="opacity-25"
+                              cx="12"
+                              cy="12"
+                              r="10"
+                              stroke="currentColor"
+                              strokeWidth="4"
+                            ></circle>
+                            <path
+                              className="opacity-75"
+                              fill="currentColor"
+                              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                            ></path>
+                          </svg>
+                          <p>지도를 불러오는 중...</p>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* 교통편 안내 */}
