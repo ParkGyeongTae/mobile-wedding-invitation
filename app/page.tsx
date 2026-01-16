@@ -2,9 +2,9 @@ import HeroSection from '@/components/HeroSection';
 import InvitationSection from '@/components/InvitationSection';
 import DdayCounter from '@/components/DdayCounter';
 import Gallery from '@/components/Gallery';
+import ShareSection from '@/components/ShareSection';
 import LocationSection from '@/components/LocationSection';
 import DiningSection from '@/components/DiningSection';
-import RsvpSection from '@/components/RsvpSection';
 import AccountSection from '@/components/AccountSection';
 import Guestbook from '@/components/Guestbook';
 import FloatingHearts from '@/components/FloatingHearts';
@@ -19,9 +19,9 @@ export default function Home() {
         <InvitationSection />
         <DdayCounter />
         <Gallery />
+        <ShareSection />
         <LocationSection />
         <DiningSection />
-        <RsvpSection />
         <AccountSection />
         <Guestbook />
         <Footer />
