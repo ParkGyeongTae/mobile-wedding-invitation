@@ -53,7 +53,7 @@ export default function LocationSection() {
 
         const map = new window.naver.maps.Map(mapRef.current, {
           center: position,
-          zoom: 17,
+          zoom: 16,
           zoomControl: true,
           zoomControlOptions: {
             position: window.naver.maps.Position.TOP_RIGHT,
