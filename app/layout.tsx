@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_KR, Playfair_Display } from "next/font/google";
 import Script from "next/script";
+import NaverMapScript from "@/components/NaverMapScript";
 import "./globals.css";
 
 const notoSansKr = Noto_Sans_KR({
@@ -31,8 +32,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const naverMapClientId = process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID;
-
   return (
     <html lang="ko">
       <head>
@@ -49,12 +48,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         {/* 네이버 지도 API */}
-        {naverMapClientId && (
-          <Script
-            src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${naverMapClientId}`}
-            strategy="afterInteractive"
-          />
-        )}
+        <NaverMapScript />
         {children}
       </body>
     </html>
