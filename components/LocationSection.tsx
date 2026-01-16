@@ -33,11 +33,6 @@ export default function LocationSection() {
     );
   };
 
-  const openGoogleMaps = () => {
-    const { lat, lng } = weddingInfo.location;
-    window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank');
-  };
-
   const addToCalendar = () => {
     window.open(generateCalendarUrl(weddingInfo), '_blank');
   };
@@ -112,7 +107,7 @@ export default function LocationSection() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="grid grid-cols-3 gap-3 mb-6">
             <button
               onClick={openTmap}
               className="bg-sky-500 hover:bg-sky-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
@@ -130,12 +125,6 @@ export default function LocationSection() {
               className="bg-yellow-400 hover:bg-yellow-500 text-gray-800 py-3 px-4 rounded-lg font-medium transition-colors duration-200"
             >
               카카오맵
-            </button>
-            <button
-              onClick={openGoogleMaps}
-              className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
-            >
-              구글 지도
             </button>
           </div>
 
