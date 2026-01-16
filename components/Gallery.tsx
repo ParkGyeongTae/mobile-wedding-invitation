@@ -173,7 +173,7 @@ export default function Gallery() {
               goToPrevious();
             }}
           >
-            <span className="block leading-none" style={{ transform: 'translateY(-8%)' }}>‹</span>
+            <span className="block leading-none" style={{ transform: 'translateY(-12%)' }}>‹</span>
           </button>
 
           {/* 오른쪽 화살표 버튼 */}
@@ -184,7 +184,7 @@ export default function Gallery() {
               goToNext();
             }}
           >
-            <span className="block leading-none" style={{ transform: 'translateY(-8%)' }}>›</span>
+            <span className="block leading-none" style={{ transform: 'translateY(-12%)' }}>›</span>
           </button>
 
           {/* 이미지 컨테이너 (스와이프 가능) */}
