@@ -1,13 +1,63 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { weddingInfo } from '@/lib/data';
 import { formatDate, generateCalendarUrl } from '@/lib/utils';
+
+declare global {
+  interface Window {
+    naver: any;
+  }
+}
 
 export default function LocationSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [isMapLoaded, setIsMapLoaded] = useState(false);
+
+  useEffect(() => {
+    // 네이버 지도 API 로드 및 초기화
+    const initMap = () => {
+      if (!window.naver || !mapRef.current) return;
+
+      const { lat, lng, name } = weddingInfo.location;
+      const position = new window.naver.maps.LatLng(lat, lng);
+
+      const map = new window.naver.maps.Map(mapRef.current, {
+        center: position,
+        zoom: 17,
+        zoomControl: true,
+        zoomControlOptions: {
+          position: window.naver.maps.Position.TOP_RIGHT,
+        },
+      });
+
+      // 마커 추가
+      new window.naver.maps.Marker({
+        position: position,
+        map: map,
+        title: name,
+      });
+
+      setIsMapLoaded(true);
+    };
+
+    // 네이버 지도 API 로드 확인
+    if (window.naver && window.naver.maps) {
+      initMap();
+    } else {
+      const checkNaverMaps = setInterval(() => {
+        if (window.naver && window.naver.maps) {
+          initMap();
+          clearInterval(checkNaverMaps);
+        }
+      }, 100);
+
+      return () => clearInterval(checkNaverMaps);
+    }
+  }, []);
 
   const openTmap = () => {
     const { name } = weddingInfo.location;
@@ -108,8 +158,23 @@ export default function LocationSection() {
                 </div>
               )}
 
+              {/* 네이버 지도 */}
+              <div className="border-t border-gray-200 pt-6 mt-6 mb-6">
+                <div
+                  ref={mapRef}
+                  className="w-full h-64 md:h-80 rounded-lg overflow-hidden bg-gray-100"
+                  style={{ minHeight: '256px' }}
+                >
+                  {!isMapLoaded && (
+                    <div className="flex items-center justify-center h-full text-gray-500">
+                      지도를 불러오는 중...
+                    </div>
+                  )}
+                </div>
+              </div>
+
               {/* 교통편 안내 */}
-              <div className="border-t border-gray-200 pt-6 mt-6">
+              <div className="pt-6">
                 <h4 className="text-lg font-bold text-gray-800 mb-4">교통편 안내</h4>
 
                 {/* 지하철 */}

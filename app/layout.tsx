@@ -31,6 +31,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const naverMapClientId = process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID;
+
   return (
     <html lang="ko">
       <head>
@@ -39,12 +41,20 @@ export default function RootLayout({
       <body
         className={`${notoSansKr.variable} ${playfair.variable} font-sans antialiased bg-pastel-pink-light`}
       >
+        {/* 카카오 SDK */}
         <Script
           src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"
           integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4"
           crossOrigin="anonymous"
           strategy="afterInteractive"
         />
+        {/* 네이버 지도 API */}
+        {naverMapClientId && (
+          <Script
+            src={`https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${naverMapClientId}`}
+            strategy="afterInteractive"
+          />
+        )}
         {children}
       </body>
     </html>
