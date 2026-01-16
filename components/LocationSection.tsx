@@ -54,6 +54,9 @@ export default function LocationSection() {
               <h3 className="text-2xl font-bold text-gray-800 mb-2">
                 {weddingInfo.location.name}
               </h3>
+              {weddingInfo.location.hall && (
+                <p className="text-lg text-gray-700 mb-2">{weddingInfo.location.hall}</p>
+              )}
               <p className="text-gray-600 mb-1">{formatDate(weddingInfo.date)}</p>
               <p className="text-gray-600">{weddingInfo.time}</p>
             </div>

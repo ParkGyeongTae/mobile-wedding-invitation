@@ -26,6 +26,7 @@ export const weddingInfo: WeddingInfo = {
   time: process.env.NEXT_PUBLIC_WEDDING_TIME || '14:00',
   location: {
     name: process.env.NEXT_PUBLIC_LOCATION_NAME || '웨딩홀 이름',
+    hall: process.env.NEXT_PUBLIC_LOCATION_HALL,
     address: process.env.NEXT_PUBLIC_LOCATION_ADDRESS || '서울특별시 강남구 테헤란로 123',
     tel: process.env.NEXT_PUBLIC_LOCATION_TEL,
     lat: parseFloat(process.env.NEXT_PUBLIC_LOCATION_LAT || '37.5665'),

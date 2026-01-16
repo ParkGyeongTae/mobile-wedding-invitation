@@ -23,6 +23,7 @@ export interface WeddingInfo {
   time: string;
   location: {
     name: string;
+    hall?: string;
     address: string;
     tel?: string;
     lat: number;
