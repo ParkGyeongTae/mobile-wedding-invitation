@@ -110,21 +110,31 @@ export default function LocationSection() {
           <div className="grid grid-cols-3 gap-3 mb-6">
             <button
               onClick={openTmap}
-              className="bg-sky-500 hover:bg-sky-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+              className="bg-sky-500 hover:bg-sky-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200 flex flex-col items-center justify-center gap-1"
             >
-              티맵
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+              </svg>
+              <span className="text-xs">티맵</span>
             </button>
             <button
               onClick={openNaverMap}
-              className="bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+              className="bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200 flex flex-col items-center justify-center gap-1"
             >
-              네이버 지도
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5zm0 2.18l8 4v8.82c0 4.52-3.17 8.75-8 9.82-4.83-1.07-8-5.3-8-9.82V8.18l8-4z"/>
+                <text x="12" y="16" fontSize="10" textAnchor="middle" fontWeight="bold" fill="currentColor">N</text>
+              </svg>
+              <span className="text-xs">네이버</span>
             </button>
             <button
               onClick={openKakaoMap}
-              className="bg-yellow-400 hover:bg-yellow-500 text-gray-800 py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+              className="bg-yellow-400 hover:bg-yellow-500 text-gray-800 py-3 px-4 rounded-lg font-medium transition-colors duration-200 flex flex-col items-center justify-center gap-1"
             >
-              카카오맵
+              <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 3C6.5 3 2 6.58 2 11c0 2.95 2.1 5.5 5.2 7.03L6 22l5.38-3.07C11.59 18.98 11.79 19 12 19c5.5 0 10-3.58 10-8s-4.5-8-10-8z"/>
+              </svg>
+              <span className="text-xs">카카오</span>
             </button>
           </div>
 
