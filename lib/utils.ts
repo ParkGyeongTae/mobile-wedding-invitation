@@ -42,8 +42,10 @@ export function copyToClipboard(text: string): Promise<void> {
 
 export function generateCalendarUrl(weddingInfo: { date: string; time: string; location: { name: string; address: string } }): string {
   const { date, time, location } = weddingInfo;
-  const startDateTime = `${date}T${time.replace(':', '')}00`;
-  const endDateTime = `${date}T${(parseInt(time.split(':')[0]) + 2).toString().padStart(2, '0')}${time.split(':')[1]}00`;
+  // Google Calendar URL 형식: YYYYMMDDTHHMMSS
+  const dateFormatted = date.replace(/-/g, ''); // 2024-12-25 → 20241225
+  const startDateTime = `${dateFormatted}T${time.replace(':', '')}00`;
+  const endDateTime = `${dateFormatted}T${(parseInt(time.split(':')[0]) + 2).toString().padStart(2, '0')}${time.split(':')[1]}00`;
 
   const title = encodeURIComponent('결혼식');
   const details = encodeURIComponent(`${location.name}에서 결혼식이 있습니다.`);
