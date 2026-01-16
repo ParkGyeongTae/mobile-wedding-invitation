@@ -20,7 +20,7 @@ export default function LocationSection() {
   const openNaverMap = () => {
     const { lat, lng, name } = weddingInfo.location;
     window.open(
-      `https://map.naver.com/v5/search/${encodeURIComponent(name)}`,
+      `https://map.naver.com/p/search/${encodeURIComponent(name)}/place/38716476?c=15.00,0,0,3,dh&placePath=/home?bk_query=${encodeURIComponent(name)}&entry=bmp&from=map&fromPanelNum=2&locale=ko&svcName=map_pcv5&searchText=${encodeURIComponent(name)}`,
       '_blank'
     );
   };
