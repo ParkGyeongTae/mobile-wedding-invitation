@@ -104,6 +104,124 @@ export default function LocationSection() {
                   </a>
                 </div>
               )}
+
+              {/* 교통편 안내 */}
+              <div className="border-t border-gray-200 pt-6 mt-6">
+                <h4 className="text-lg font-bold text-gray-800 mb-4">교통편 안내</h4>
+
+                {/* 지하철 */}
+                <div className="mb-5">
+                  <div className="flex items-start mb-2">
+                    <svg
+                      className="w-5 h-5 text-blue-600 mt-0.5 mr-2 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                      />
+                    </svg>
+                    <div>
+                      <p className="font-semibold text-gray-800 text-sm">지하철 이용 시</p>
+                      <p className="text-gray-600 text-sm mt-1">4호선 평촌역 3번 출구 횡단보도 맞은 편</p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 버스 */}
+                <div className="mb-5">
+                  <div className="flex items-start mb-2">
+                    <svg
+                      className="w-5 h-5 text-green-600 mt-0.5 mr-2 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"
+                      />
+                    </svg>
+                    <div>
+                      <p className="font-semibold text-gray-800 text-sm">버스 이용 시</p>
+                      <p className="text-gray-600 text-sm mt-1">평촌역 하차</p>
+                      <div className="mt-2 space-y-1">
+                        <p className="text-gray-600 text-sm">
+                          <span className="font-medium">[일반버스]</span> 1, 6, 22, 52, 52-1, 83
+                        </p>
+                        <p className="text-gray-600 text-sm">
+                          <span className="font-medium">[마을버스]</span> 2-1, 5, 5-1, 5-5, 6, 6-1, 7, 8, 10-1
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 자가용 */}
+                <div>
+                  <div className="flex items-start mb-2">
+                    <svg
+                      className="w-5 h-5 text-purple-600 mt-0.5 mr-2 flex-shrink-0"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                      />
+                    </svg>
+                    <div className="flex-1">
+                      <p className="font-semibold text-gray-800 text-sm mb-2">자가용 이용 시</p>
+                      <p className="text-gray-600 text-sm mb-3">네비게이션 검색: 더파티움 안양 또는 시민대로 311 입력</p>
+
+                      <div className="space-y-3">
+                        <div className="bg-gray-50 rounded-lg p-3">
+                          <p className="font-medium text-gray-800 text-sm mb-1">[제 1주차장]</p>
+                          <p className="text-gray-600 text-xs leading-relaxed">
+                            더파티움 안양 본건물 지하주차장<br />
+                            동안구 시민대로 311 (관양동 1746)
+                          </p>
+                        </div>
+
+                        <div className="bg-gray-50 rounded-lg p-3">
+                          <p className="font-medium text-gray-800 text-sm mb-1">[제 2주차장]</p>
+                          <p className="text-gray-600 text-xs leading-relaxed">
+                            지아이에스(구.네온테크) 주차장<br />
+                            토, 일 이용 가능 (공휴일 이용불가)<br />
+                            동안구 부림로 146 (관양동 1745-3)
+                          </p>
+                        </div>
+
+                        <div className="bg-gray-50 rounded-lg p-3">
+                          <p className="font-medium text-gray-800 text-sm mb-1">[제 3주차장]</p>
+                          <p className="text-gray-600 text-xs leading-relaxed">
+                            이마트 평촌점 주차장<br />
+                            동안구 시민대로300 (관양동 1608)
+                          </p>
+                        </div>
+
+                        <div className="bg-gray-50 rounded-lg p-3">
+                          <p className="font-medium text-gray-800 text-sm mb-1">[제 4주차장]</p>
+                          <p className="text-gray-600 text-xs leading-relaxed">
+                            평촌 칼라힐 주차빌딩 (하이파킹 주차타워)<br />
+                            *2층부터 주차 가능<br />
+                            동안구 시민대로312 (평촌동 897)
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
