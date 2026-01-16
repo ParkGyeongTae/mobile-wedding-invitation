@@ -53,6 +53,7 @@ jobs:
           NEXT_PUBLIC_LOCATION_TEL: ${{ secrets.LOCATION_TEL }}
           NEXT_PUBLIC_LOCATION_LAT: ${{ secrets.LOCATION_LAT }}
           NEXT_PUBLIC_LOCATION_LNG: ${{ secrets.LOCATION_LNG }}
+          NEXT_PUBLIC_LOCATION_HALL: ${{ secrets.LOCATION_HALL }}
           NEXT_PUBLIC_INVITATION_MESSAGE: ${{ secrets.INVITATION_MESSAGE }}
           NEXT_PUBLIC_GALLERY_COUNT: ${{ secrets.GALLERY_COUNT }}
           # Firebase 설정 (방명록 기능 사용 시)
