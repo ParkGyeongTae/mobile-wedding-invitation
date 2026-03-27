@@ -24,7 +24,7 @@ export default function Footer() {
         </div>
         <div className="text-xs text-gray-600">
           <p>© 2026 Mobile Wedding Invitation</p>
-          <p className="mt-2">Made by 박경태</p>
+          <p className="mt-2">Made by Gyeongtae Park</p>
         </div>
       </div>
     </footer>
