@@ -4,6 +4,8 @@ import { useScroll, useTransform, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 interface Heart {
   id: number;
   x: number;
@@ -79,7 +81,7 @@ export default function SplashCover() {
           style={{ y: imageY }}
         >
           <Image
-            src="/images/home/home.jpg"
+            src={`${basePath}/images/home/home.jpg`}
             alt="웨딩 커버"
             fill
             priority
