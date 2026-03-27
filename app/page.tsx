@@ -1,3 +1,4 @@
+import SplashCover from '@/components/SplashCover';
 import HeroSection from '@/components/HeroSection';
 import InvitationSection from '@/components/InvitationSection';
 import DdayCounter from '@/components/DdayCounter';
@@ -13,6 +14,7 @@ import Footer from '@/components/Footer';
 export default function Home() {
   return (
     <>
+      <SplashCover />
       <FloatingHearts />
       <main className="relative min-h-screen">
         <HeroSection />
