@@ -1,23 +1,25 @@
+export interface AccountInfo {
+  bank: string;
+  number: string;
+  holder: string;
+}
+
 export interface WeddingInfo {
   groom: {
     name: string;
     father: string;
     mother: string;
-    account?: {
-      bank: string;
-      number: string;
-      holder: string;
-    };
+    account?: AccountInfo;
+    fatherAccount?: AccountInfo;
+    motherAccount?: AccountInfo;
   };
   bride: {
     name: string;
     father: string;
     mother: string;
-    account?: {
-      bank: string;
-      number: string;
-      holder: string;
-    };
+    account?: AccountInfo;
+    fatherAccount?: AccountInfo;
+    motherAccount?: AccountInfo;
   };
   date: string;
   time: string;
