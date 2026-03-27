@@ -3,6 +3,7 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
 import { weddingInfo } from '@/lib/data';
+import { AccountInfo } from '@/lib/types';
 import { copyToClipboard } from '@/lib/utils';
 
 export default function AccountSection() {
@@ -21,60 +22,58 @@ export default function AccountSection() {
     }
   };
 
-  const AccountCard = ({ person, title }: { person: typeof weddingInfo.groom; title: string }) => {
-    if (!person.account) return null;
-
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="bg-gradient-to-br from-pastel-pink-light to-white rounded-lg p-6 shadow-md"
-      >
-        <h3 className="font-bold text-lg text-gray-800 mb-4">{title}</h3>
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600">{person.account.bank}</p>
-              <p className="text-lg font-medium text-gray-800">{person.account.number}</p>
-              <p className="text-sm text-gray-600">{person.account.holder}</p>
-            </div>
-            <button
-              onClick={() => handleCopy(person.account!.number, person.name)}
-              className="bg-pastel-gold hover:bg-pastel-gold-dark text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
-            >
-              {copiedAccount === person.name ? '복사됨!' : '복사'}
-            </button>
+  const AccountCard = ({ account, title }: { account: AccountInfo; title: string }) => (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="bg-gradient-to-br from-pastel-pink-light to-white rounded-lg p-6 shadow-md"
+    >
+      <h3 className="font-bold text-lg text-gray-800 mb-4">{title}</h3>
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm text-gray-600">{account.bank}</p>
+            <p className="text-lg font-medium text-gray-800">{account.number}</p>
+            <p className="text-sm text-gray-600">{account.holder}</p>
           </div>
-
-          <div className="flex gap-2">
-            <button
-              onClick={() =>
-                window.open(
-                  `https://qr.kakaopay.com/`,
-                  '_blank'
-                )
-              }
-              className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-gray-800 py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
-            >
-              카카오페이
-            </button>
-            <button
-              onClick={() =>
-                window.open(
-                  `https://toss.me/`,
-                  '_blank'
-                )
-              }
-              className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
-            >
-              토스
-            </button>
-          </div>
+          <button
+            onClick={() => handleCopy(account.number, title)}
+            className="bg-pastel-gold hover:bg-pastel-gold-dark text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+          >
+            {copiedAccount === title ? '복사됨!' : '복사'}
+          </button>
         </div>
-      </motion.div>
-    );
-  };
+
+        <div className="flex gap-2">
+          <button
+            onClick={() => window.open(`https://qr.kakaopay.com/`, '_blank')}
+            className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-gray-800 py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
+          >
+            카카오페이
+          </button>
+          <button
+            onClick={() => window.open(`https://toss.me/`, '_blank')}
+            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
+          >
+            토스
+          </button>
+        </div>
+      </div>
+    </motion.div>
+  );
+
+  const groomAccounts = [
+    weddingInfo.groom.account && { account: weddingInfo.groom.account, title: `신랑 ${weddingInfo.groom.name}` },
+    weddingInfo.groom.fatherAccount && { account: weddingInfo.groom.fatherAccount, title: `신랑 아버지 ${weddingInfo.groom.father}` },
+    weddingInfo.groom.motherAccount && { account: weddingInfo.groom.motherAccount, title: `신랑 어머니 ${weddingInfo.groom.mother}` },
+  ].filter(Boolean) as { account: AccountInfo; title: string }[];
+
+  const brideAccounts = [
+    weddingInfo.bride.account && { account: weddingInfo.bride.account, title: `신부 ${weddingInfo.bride.name}` },
+    weddingInfo.bride.fatherAccount && { account: weddingInfo.bride.fatherAccount, title: `신부 아버지 ${weddingInfo.bride.father}` },
+    weddingInfo.bride.motherAccount && { account: weddingInfo.bride.motherAccount, title: `신부 어머니 ${weddingInfo.bride.mother}` },
+  ].filter(Boolean) as { account: AccountInfo; title: string }[];
 
   return (
     <section ref={ref} className="py-20 px-6 bg-white">
@@ -105,8 +104,12 @@ export default function AccountSection() {
 
           {showAccounts && (
             <div className="space-y-4">
-              <AccountCard person={weddingInfo.groom} title={`신랑 ${weddingInfo.groom.name}`} />
-              <AccountCard person={weddingInfo.bride} title={`신부 ${weddingInfo.bride.name}`} />
+              {groomAccounts.map(({ account, title }) => (
+                <AccountCard key={title} account={account} title={title} />
+              ))}
+              {brideAccounts.map(({ account, title }) => (
+                <AccountCard key={title} account={account} title={title} />
+              ))}
             </div>
           )}
         </motion.div>

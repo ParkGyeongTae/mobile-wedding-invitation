@@ -41,7 +41,13 @@ export default function InvitationSection() {
               </div>
               <div className="text-sm text-gray-600 space-y-1">
                 <p>
-                  {weddingInfo.groom.father} · {weddingInfo.groom.mother}의 아들
+                  {weddingInfo.groom.father && weddingInfo.groom.mother
+                    ? `${weddingInfo.groom.father} · ${weddingInfo.groom.mother}의 아들`
+                    : weddingInfo.groom.father
+                    ? `${weddingInfo.groom.father}의 아들`
+                    : weddingInfo.groom.mother
+                    ? `${weddingInfo.groom.mother}의 아들`
+                    : ''}
                 </p>
               </div>
             </motion.div>
@@ -60,7 +66,13 @@ export default function InvitationSection() {
               </div>
               <div className="text-sm text-gray-600 space-y-1">
                 <p>
-                  {weddingInfo.bride.father} · {weddingInfo.bride.mother}의 딸
+                  {weddingInfo.bride.father && weddingInfo.bride.mother
+                    ? `${weddingInfo.bride.father} · ${weddingInfo.bride.mother}의 딸`
+                    : weddingInfo.bride.father
+                    ? `${weddingInfo.bride.father}의 딸`
+                    : weddingInfo.bride.mother
+                    ? `${weddingInfo.bride.mother}의 딸`
+                    : ''}
                 </p>
               </div>
             </motion.div>
