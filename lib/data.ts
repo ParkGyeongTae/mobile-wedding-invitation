@@ -4,8 +4,8 @@ import { WeddingInfo, GalleryImage, DiningInfo } from './types';
 export const weddingInfo: WeddingInfo = {
   groom: {
     name: process.env.NEXT_PUBLIC_GROOM_NAME || '신랑 이름',
-    father: process.env.NEXT_PUBLIC_GROOM_FATHER ?? '',
-    mother: process.env.NEXT_PUBLIC_GROOM_MOTHER ?? '',
+    father: process.env.NEXT_PUBLIC_GROOM_FATHER?.trim() ?? '',
+    mother: process.env.NEXT_PUBLIC_GROOM_MOTHER?.trim() ?? '',
     account: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_BANK ? {
       bank: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_BANK,
       number: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_NUMBER || '',
@@ -24,8 +24,8 @@ export const weddingInfo: WeddingInfo = {
   },
   bride: {
     name: process.env.NEXT_PUBLIC_BRIDE_NAME || '신부 이름',
-    father: process.env.NEXT_PUBLIC_BRIDE_FATHER ?? '',
-    mother: process.env.NEXT_PUBLIC_BRIDE_MOTHER ?? '',
+    father: process.env.NEXT_PUBLIC_BRIDE_FATHER?.trim() ?? '',
+    mother: process.env.NEXT_PUBLIC_BRIDE_MOTHER?.trim() ?? '',
     account: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_BANK ? {
       bank: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_BANK,
       number: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_NUMBER || '',
