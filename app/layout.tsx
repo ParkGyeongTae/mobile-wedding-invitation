@@ -23,6 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "박경태 ♡ 최미연",
     description: "우리의 특별한 날에 초대합니다. 7월 12일(일) 12시 50분",
+    siteName: "박경태 ♡ 최미연",
     type: "website",
     images: [
       {
