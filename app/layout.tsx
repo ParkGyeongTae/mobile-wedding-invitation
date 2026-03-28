@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://parkgyeongtae.github.io/mobile-wedding-invitation/images/gallery/4.jpg",
+        url: "https://parkgyeongtae.github.io/mobile-wedding-invitation/images/gallery/1.jpg",
         width: 1200,
         height: 630,
       },
