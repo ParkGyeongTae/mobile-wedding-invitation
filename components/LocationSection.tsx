@@ -477,21 +477,24 @@ export default function LocationSection() {
           <div className="grid grid-cols-3 gap-3 mb-6">
             <button
               onClick={openTmap}
-              className="bg-sky-500 hover:bg-sky-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+              className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-gray-100 transition-colors duration-200"
             >
-              티맵
+              <img src="/images/navigation/tmap.png" alt="티맵" className="w-14 h-14" />
+              <span className="text-sm text-gray-700 font-medium">티맵</span>
             </button>
             <button
               onClick={openNaverMap}
-              className="bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+              className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-gray-100 transition-colors duration-200"
             >
-              네이버 지도
+              <img src="/images/navigation/navermap.png" alt="네이버지도" className="w-14 h-14" />
+              <span className="text-sm text-gray-700 font-medium">네이버지도</span>
             </button>
             <button
               onClick={openKakaoMap}
-              className="bg-yellow-400 hover:bg-yellow-500 text-gray-800 py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+              className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-gray-100 transition-colors duration-200"
             >
-              카카오맵
+              <img src="/images/navigation/kakaomap.png" alt="카카오맵" className="w-14 h-14" />
+              <span className="text-sm text-gray-700 font-medium">카카오맵</span>
             </button>
           </div>
 
