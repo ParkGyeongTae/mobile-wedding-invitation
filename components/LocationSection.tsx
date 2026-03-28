@@ -2,6 +2,7 @@
 
 import { motion, useInView } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
+import Image from 'next/image';
 import { weddingInfo } from '@/lib/data';
 import { formatDate, generateCalendarUrl } from '@/lib/utils';
 
@@ -479,21 +480,21 @@ export default function LocationSection() {
               onClick={openTmap}
               className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-gray-100 transition-colors duration-200"
             >
-              <img src="/images/navigation/tmap.png" alt="티맵" className="w-14 h-14" />
+              <Image src="/images/navigation/tmap.png" alt="티맵" width={56} height={56} />
               <span className="text-sm text-gray-700 font-medium">티맵</span>
             </button>
             <button
               onClick={openNaverMap}
               className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-gray-100 transition-colors duration-200"
             >
-              <img src="/images/navigation/navermap.png" alt="네이버지도" className="w-14 h-14" />
+              <Image src="/images/navigation/navermap.png" alt="네이버지도" width={56} height={56} />
               <span className="text-sm text-gray-700 font-medium">네이버지도</span>
             </button>
             <button
               onClick={openKakaoMap}
               className="flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-gray-100 transition-colors duration-200"
             >
-              <img src="/images/navigation/kakaomap.png" alt="카카오맵" className="w-14 h-14" />
+              <Image src="/images/navigation/kakaomap.png" alt="카카오맵" width={56} height={56} />
               <span className="text-sm text-gray-700 font-medium">카카오맵</span>
             </button>
           </div>
