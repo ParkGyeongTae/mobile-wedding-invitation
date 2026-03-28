@@ -17,12 +17,12 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "모바일 청첩장",
-  description: "우리의 특별한 날에 초대합니다",
+  title: "박경태 ♡ 최미연",
+  description: "우리의 특별한 날에 초대합니다. 7월 12일(일) 12시 50분",
   keywords: ["청첩장", "모바일 청첩장", "웨딩", "결혼"],
   openGraph: {
-    title: "모바일 청첩장",
-    description: "우리의 특별한 날에 초대합니다",
+    title: "박경태 ♡ 최미연",
+    description: "우리의 특별한 날에 초대합니다. 7월 12일(일) 12시 50분",
     type: "website",
     images: [
       {
