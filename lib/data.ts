@@ -6,40 +6,40 @@ export const weddingInfo: WeddingInfo = {
     name: process.env.NEXT_PUBLIC_GROOM_NAME || '신랑 이름',
     father: process.env.NEXT_PUBLIC_GROOM_FATHER?.trim() ?? '',
     mother: process.env.NEXT_PUBLIC_GROOM_MOTHER?.trim() ?? '',
-    account: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_BANK ? {
+    account: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_BANK?.trim() && process.env.NEXT_PUBLIC_GROOM_ACCOUNT_NUMBER?.trim() && process.env.NEXT_PUBLIC_GROOM_ACCOUNT_HOLDER?.trim() ? {
       bank: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_BANK,
-      number: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_NUMBER || '',
-      holder: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_HOLDER || '',
+      number: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_NUMBER,
+      holder: process.env.NEXT_PUBLIC_GROOM_ACCOUNT_HOLDER,
     } : undefined,
-    fatherAccount: process.env.NEXT_PUBLIC_GROOM_FATHER_ACCOUNT_BANK ? {
+    fatherAccount: process.env.NEXT_PUBLIC_GROOM_FATHER_ACCOUNT_BANK?.trim() && process.env.NEXT_PUBLIC_GROOM_FATHER_ACCOUNT_NUMBER?.trim() && process.env.NEXT_PUBLIC_GROOM_FATHER_ACCOUNT_HOLDER?.trim() ? {
       bank: process.env.NEXT_PUBLIC_GROOM_FATHER_ACCOUNT_BANK,
-      number: process.env.NEXT_PUBLIC_GROOM_FATHER_ACCOUNT_NUMBER || '',
-      holder: process.env.NEXT_PUBLIC_GROOM_FATHER_ACCOUNT_HOLDER || '',
+      number: process.env.NEXT_PUBLIC_GROOM_FATHER_ACCOUNT_NUMBER,
+      holder: process.env.NEXT_PUBLIC_GROOM_FATHER_ACCOUNT_HOLDER,
     } : undefined,
-    motherAccount: process.env.NEXT_PUBLIC_GROOM_MOTHER_ACCOUNT_BANK ? {
+    motherAccount: process.env.NEXT_PUBLIC_GROOM_MOTHER_ACCOUNT_BANK?.trim() && process.env.NEXT_PUBLIC_GROOM_MOTHER_ACCOUNT_NUMBER?.trim() && process.env.NEXT_PUBLIC_GROOM_MOTHER_ACCOUNT_HOLDER?.trim() ? {
       bank: process.env.NEXT_PUBLIC_GROOM_MOTHER_ACCOUNT_BANK,
-      number: process.env.NEXT_PUBLIC_GROOM_MOTHER_ACCOUNT_NUMBER || '',
-      holder: process.env.NEXT_PUBLIC_GROOM_MOTHER_ACCOUNT_HOLDER || '',
+      number: process.env.NEXT_PUBLIC_GROOM_MOTHER_ACCOUNT_NUMBER,
+      holder: process.env.NEXT_PUBLIC_GROOM_MOTHER_ACCOUNT_HOLDER,
     } : undefined,
   },
   bride: {
     name: process.env.NEXT_PUBLIC_BRIDE_NAME || '신부 이름',
     father: process.env.NEXT_PUBLIC_BRIDE_FATHER?.trim() ?? '',
     mother: process.env.NEXT_PUBLIC_BRIDE_MOTHER?.trim() ?? '',
-    account: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_BANK ? {
+    account: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_BANK?.trim() && process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_NUMBER?.trim() && process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_HOLDER?.trim() ? {
       bank: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_BANK,
-      number: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_NUMBER || '',
-      holder: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_HOLDER || '',
+      number: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_NUMBER,
+      holder: process.env.NEXT_PUBLIC_BRIDE_ACCOUNT_HOLDER,
     } : undefined,
-    fatherAccount: process.env.NEXT_PUBLIC_BRIDE_FATHER_ACCOUNT_BANK ? {
+    fatherAccount: process.env.NEXT_PUBLIC_BRIDE_FATHER_ACCOUNT_BANK?.trim() && process.env.NEXT_PUBLIC_BRIDE_FATHER_ACCOUNT_NUMBER?.trim() && process.env.NEXT_PUBLIC_BRIDE_FATHER_ACCOUNT_HOLDER?.trim() ? {
       bank: process.env.NEXT_PUBLIC_BRIDE_FATHER_ACCOUNT_BANK,
-      number: process.env.NEXT_PUBLIC_BRIDE_FATHER_ACCOUNT_NUMBER || '',
-      holder: process.env.NEXT_PUBLIC_BRIDE_FATHER_ACCOUNT_HOLDER || '',
+      number: process.env.NEXT_PUBLIC_BRIDE_FATHER_ACCOUNT_NUMBER,
+      holder: process.env.NEXT_PUBLIC_BRIDE_FATHER_ACCOUNT_HOLDER,
     } : undefined,
-    motherAccount: process.env.NEXT_PUBLIC_BRIDE_MOTHER_ACCOUNT_BANK ? {
+    motherAccount: process.env.NEXT_PUBLIC_BRIDE_MOTHER_ACCOUNT_BANK?.trim() && process.env.NEXT_PUBLIC_BRIDE_MOTHER_ACCOUNT_NUMBER?.trim() && process.env.NEXT_PUBLIC_BRIDE_MOTHER_ACCOUNT_HOLDER?.trim() ? {
       bank: process.env.NEXT_PUBLIC_BRIDE_MOTHER_ACCOUNT_BANK,
-      number: process.env.NEXT_PUBLIC_BRIDE_MOTHER_ACCOUNT_NUMBER || '',
-      holder: process.env.NEXT_PUBLIC_BRIDE_MOTHER_ACCOUNT_HOLDER || '',
+      number: process.env.NEXT_PUBLIC_BRIDE_MOTHER_ACCOUNT_NUMBER,
+      holder: process.env.NEXT_PUBLIC_BRIDE_MOTHER_ACCOUNT_HOLDER,
     } : undefined,
   },
   date: process.env.NEXT_PUBLIC_WEDDING_DATE || '2024-12-25',
