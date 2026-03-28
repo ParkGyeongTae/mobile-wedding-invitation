@@ -41,10 +41,10 @@ export default function AccountSection() {
       <div className="rounded-lg overflow-hidden shadow-sm border border-pastel-pink">
         <button
           onClick={() => toggleExpand(title)}
-          className="w-full flex items-center justify-between px-5 py-4 bg-gradient-to-r from-pastel-pink-light to-white text-left"
+          className="w-full flex items-center justify-between px-3 py-3 bg-gradient-to-r from-pastel-pink-light to-white text-left"
         >
-          <span className="font-medium text-gray-800">{title}</span>
-          <span className="text-gray-400 text-lg">{isExpanded ? '▲' : '▼'}</span>
+          <span className="font-medium text-gray-800 text-sm leading-tight">{title}</span>
+          <span className="text-gray-400 text-sm ml-1">{isExpanded ? '▲' : '▼'}</span>
         </button>
 
         <AnimatePresence initial={false}>
@@ -57,15 +57,15 @@ export default function AccountSection() {
               transition={{ duration: 0.3 }}
               className="overflow-hidden"
             >
-              <div className="flex items-center justify-between px-5 py-4 bg-white border-t border-pastel-pink">
+              <div className="flex flex-col gap-2 px-3 py-3 bg-white border-t border-pastel-pink">
                 <div>
-                  <p className="text-sm text-gray-500">{account.bank}</p>
-                  <p className="text-base font-medium text-gray-800">{account.number}</p>
-                  <p className="text-sm text-gray-500">{account.holder}</p>
+                  <p className="text-xs text-gray-500">{account.bank}</p>
+                  <p className="text-sm font-medium text-gray-800 break-all">{account.number}</p>
+                  <p className="text-xs text-gray-500">{account.holder}</p>
                 </div>
                 <button
                   onClick={(e) => { e.stopPropagation(); handleCopy(account.number, title); }}
-                  className="bg-pastel-gold hover:bg-pastel-gold-dark text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 shrink-0 ml-4"
+                  className="w-full bg-pastel-gold hover:bg-pastel-gold-dark text-gray-800 py-1.5 rounded-lg text-xs font-medium transition-colors duration-200"
                 >
                   {copiedAccount === title ? '복사됨!' : '복사'}
                 </button>
@@ -123,14 +123,20 @@ export default function AccountSection() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 10 }}
                 transition={{ duration: 0.3 }}
-                className="space-y-3"
+                className="grid grid-cols-2 gap-3"
               >
-                {groomAccounts.map(({ account, title }) => (
-                  <AccountRow key={title} account={account} title={title} />
-                ))}
-                {brideAccounts.map(({ account, title }) => (
-                  <AccountRow key={title} account={account} title={title} />
-                ))}
+                <div className="space-y-3">
+                  <p className="text-center text-sm font-medium text-gray-500">신랑측</p>
+                  {groomAccounts.map(({ account, title }) => (
+                    <AccountRow key={title} account={account} title={title} />
+                  ))}
+                </div>
+                <div className="space-y-3">
+                  <p className="text-center text-sm font-medium text-gray-500">신부측</p>
+                  {brideAccounts.map(({ account, title }) => (
+                    <AccountRow key={title} account={account} title={title} />
+                  ))}
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
