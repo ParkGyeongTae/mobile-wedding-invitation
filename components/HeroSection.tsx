@@ -5,7 +5,7 @@ import { weddingInfo } from '@/lib/data';
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 bg-gradient-to-b from-pastel-pink-light via-pastel-pink to-pastel-pink-light">
+    <section className="relative flex flex-col items-center justify-center px-6 py-20 bg-gradient-to-b from-pastel-pink-light via-pastel-pink to-pastel-pink-light" style={{ minHeight: 'var(--app-height, 100svh)' }}>
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}

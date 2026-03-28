@@ -43,6 +43,8 @@ export default function RootLayout({
     <html lang="ko">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        {/* 초기 뷰포트 높이를 CSS 변수로 고정 - 툴바 show/hide 시 레이아웃 변동 방지 */}
+        <script dangerouslySetInnerHTML={{ __html: `document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');` }} />
       </head>
       <body
         className={`${notoSansKr.variable} ${playfair.variable} font-sans antialiased bg-pastel-pink-light`}

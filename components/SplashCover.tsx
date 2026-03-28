@@ -117,7 +117,7 @@ export default function SplashCover() {
       </motion.div>
 
       {/* 커버 높이만큼 공간 확보 */}
-      <div className="h-screen" aria-hidden="true" />
+      <div style={{ height: 'var(--app-height, 100svh)' }} aria-hidden="true" />
     </>
   );
 }
