@@ -44,6 +44,7 @@ export interface GuestbookEntry {
   name: string;
   message: string;
   createdAt: Date;
+  passwordHash?: string;
 }
 
 export interface DiningInfo {
