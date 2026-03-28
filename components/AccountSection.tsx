@@ -45,20 +45,6 @@ export default function AccountSection() {
           </button>
         </div>
 
-        <div className="flex gap-2">
-          <button
-            onClick={() => window.open(`https://qr.kakaopay.com/`, '_blank')}
-            className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-gray-800 py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
-          >
-            카카오페이
-          </button>
-          <button
-            onClick={() => window.open(`https://toss.me/`, '_blank')}
-            className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors duration-200"
-          >
-            토스
-          </button>
-        </div>
       </div>
     </motion.div>
   );
