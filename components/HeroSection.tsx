@@ -48,7 +48,7 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.6 }}
           className="mb-8"
         >
-          <h1 className="font-playfair text-5xl md:text-6xl font-bold text-pastel-gold-dark mb-2">
+          <h1 className="font-playfair text-4xl md:text-5xl font-bold text-pastel-gold-dark mb-2">
             {weddingInfo.groom.name} & {weddingInfo.bride.name}
           </h1>
         </motion.div>
